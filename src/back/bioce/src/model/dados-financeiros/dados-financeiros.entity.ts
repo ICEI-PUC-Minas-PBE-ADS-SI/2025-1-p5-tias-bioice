@@ -3,10 +3,13 @@ import {
   Column,
   Entity,
   JoinColumn,
-  ManyToOne,
+  ManyToOne, OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Usuario } from '../usuario/usuario.entity';
+import {
+  InsumosProdutosDadosFinanceirosEntity
+} from "../insumos-produtos-dados-financerios/insumos-produtos-dados-financerios.entity";
 
 @Entity({ name: 'dados_financeiros' })
 export class DadosFinanceiros extends BaseEntity {
@@ -28,4 +31,8 @@ export class DadosFinanceiros extends BaseEntity {
   @ManyToOne(() => Usuario, (usuario: Usuario) => usuario.insumos)
   @JoinColumn({ name: 'id_user_FK' })
   usuario: Usuario;
+
+  @OneToMany(() => InsumosProdutosDadosFinanceirosEntity,
+  (rel) => rel.dadosFinanceiros)
+  relacoesFinanceiras: InsumosProdutosDadosFinanceirosEntity[];
 }
