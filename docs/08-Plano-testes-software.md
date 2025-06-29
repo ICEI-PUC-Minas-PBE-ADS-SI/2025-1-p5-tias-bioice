@@ -161,8 +161,6 @@ Por exemplo:
 |                    Passos                    | - Acessar módulo de relatórios <br> - Selecionar "Relatório Geral" <br> - Definir período <br> - Gerar relatório |
 |               Critério de êxito              |                       - Relatório apresenta dados de estoque, finanças e sustentabilidade.                       |
 | Responsável pela elaboração do caso de teste |                                                    Danilo Lopes                                                   |
-
-
 <br>
 
 ## Ferramentas de testes (opcional)
