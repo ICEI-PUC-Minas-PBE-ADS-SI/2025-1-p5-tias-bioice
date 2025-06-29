@@ -1,6 +1,8 @@
 "use client";
 
 import Card from "@/components/basic/Card";
+import { useAppContext } from "@/contexts/AppContext";
+import { useContext, useEffect } from "react";
 import {
   BarChart,
   Bar,
@@ -51,6 +53,12 @@ const dataInsumos = [
 ];
 
 export default function DashboardPage() {
+  const context = useAppContext()
+
+  useEffect(() => {
+    console.log(context.api.getToken())
+  }, [])
+
   return (
     <div className="text-black p-6 space-y-6 bg-gray-100 min-h-screen">
       <div className="flex flex-wrap justify-between items-center mb-6">

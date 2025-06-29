@@ -1,6 +1,6 @@
 export default class API {
 	// baseUrl: string | null = "https://two025-1-p5-tias-bioice.onrender.com"
-	baseUrl: string | null = "http://192.168.1.20:27116"
+	baseUrl: string | null = "http://localhost:3000"
 	token: string | null = null
 
 	async genericFetch(uri: string, method: string = "GET", body: Record<string, number | string> | null = null) {
@@ -27,6 +27,10 @@ export default class API {
 		this.token = token
 	}
 
+	getToken() {
+		return this.token
+	}
+
 	genericGET(url: string) {
 		return this.genericFetch(url, "GET", null)
 	}
@@ -46,6 +50,8 @@ export default class API {
 	genericDELETE(url: string) {
 		return this.genericFetch(url, "DELETE", null)
 	}
+
+
 
 	login(credentials: { email: string, senha: string }) {
 		return this.genericPOST("/usuario/auth", credentials)

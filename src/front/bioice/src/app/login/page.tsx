@@ -32,16 +32,15 @@ export default function Login() {
     setOpen(false)
     setLoading(true)
     context.api.login(form).then(r => {
-      console.log(r)
-      if (r.status == 201) {
-        // context.api.setToken()
-        context.setUser({
-          id: r.data.id,
-          email: r.data.email,
-          name: r.data.username
-        })
+      if (r.status == 200) {
+        context.api.setToken(r.data.accessToken)
+        // context.setUser({
+        //   id: r.data.id,
+        //   email: r.data.email,
+        //   name: r.data.username
+        // })
 
-        setTimeout(() => router.push("/app/dashboard"), 1000)
+        router.push("/app/dashboard")
       } else throw errors[r.status] ?? "Não foi possível se conectar."
     }).catch(err => setTimeout(() => {
       setMsg(err)
