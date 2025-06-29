@@ -33,8 +33,9 @@ export default function Entry({ row }: { row: RowData }) {
         {row.date.toISOString()}
       </td>
       <td className="p-4">
-        -
+        {row.titles.join(", ")}
       </td>
+
       <td className="p-4">
         {row.status === "Ativo" ? (
           <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full font-semibold">
