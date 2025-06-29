@@ -95,21 +95,23 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="col-span-2">
           <Card>
-            <h2 className="text-lg font-semibold mb-4">Desempenho</h2>
-            <ResponsiveContainer width="100%" height={250}>
-              <BarChart data={dataDesempenho}>
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="entrada" fill={verde} />
-                <Bar dataKey="saida" fill={amarelo} />
-              </BarChart>
-            </ResponsiveContainer>
+            <div className="p-6">
+              <h2 className="text-lg font-semibold mb-4">Desempenho</h2>
+              <ResponsiveContainer width="100%" height={250}>
+                <BarChart data={dataDesempenho}>
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="entrada" fill={verde} />
+                  <Bar dataKey="saida" fill={amarelo} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           </Card>
         </div>
 
         <Card>
-          <div className="flex flex-col items-center justify-center">
+          <div className="flex flex-col p-6 items-center justify-center">
             <h2 className="text-lg font-semibold mb-4">Meta</h2>
             <ResponsiveContainer width="100%" height={200}>
               <PieChart>
@@ -134,7 +136,7 @@ export default function DashboardPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
-          <div className="flex flex-col items-center justify-center">
+          <div className="flex flex-col p-6 items-center justify-center">
             <h2 className="text-lg font-semibold mb-4 text-black">Consumo por Perfil</h2>
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
@@ -165,27 +167,29 @@ export default function DashboardPage() {
         </Card>
 
         <Card>
-          <h2 className="text-lg font-semibold mb-4 text-black">Insumos Recentes</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4">
-            {dataInsumos.map((item, index) => (
-              <div
-                key={index}
-                className="p-4 rounded-xl border border-gray-200 bg-gradient-to-br from-teal-50 to-green-50 shadow-sm hover:shadow-md transition"
-              >
-                <div className="text-sm text-gray-600 mb-1">{item.name}</div>
-                <div className="text-xl font-bold text-gray-800">
-                  {item.value >= 1000000
-                    ? (item.value / 1000000).toFixed(1) + "M"
-                    : (item.value / 1000).toFixed(0) + "K"}
-                </div>
+          <div className="p-6">
+            <h2 className="text-lg font-semibold mb-4 text-black">Insumos Recentes</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4">
+              {dataInsumos.map((item, index) => (
                 <div
-                  className={`text-sm font-medium ${item.percentage.startsWith("-") ? "text-red-500" : "text-green-600"
-                    }`}
+                  key={index}
+                  className="p-4 rounded-xl border border-gray-200 bg-gradient-to-br from-teal-50 to-green-50 shadow-sm hover:shadow-md transition"
                 >
-                  {item.percentage}
+                  <div className="text-sm text-gray-600 mb-1">{item.name}</div>
+                  <div className="text-xl font-bold text-gray-800">
+                    {item.value >= 1000000
+                      ? (item.value / 1000000).toFixed(1) + "M"
+                      : (item.value / 1000).toFixed(0) + "K"}
+                  </div>
+                  <div
+                    className={`text-sm font-medium ${item.percentage.startsWith("-") ? "text-red-500" : "text-green-600"
+                      }`}
+                  >
+                    {item.percentage}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </Card>
       </div>

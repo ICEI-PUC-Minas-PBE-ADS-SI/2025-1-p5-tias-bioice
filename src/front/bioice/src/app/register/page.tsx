@@ -26,6 +26,7 @@ export default function Cadastro() {
       name: form.name + " " + form.surname,
       senha: form.password
     }).then(r => {
+      console.log(r)
       if (r.status == 201) {
         context.setUser({
           id: r.data.id,

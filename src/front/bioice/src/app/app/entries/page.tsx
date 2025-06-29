@@ -1,6 +1,6 @@
 "use client"
 
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import RowLancamento, { RowData } from "@/components/Sheets/Entry"
 import Button from "@/components/basic/Button"
 import Card from "@/components/basic/Card"
@@ -9,6 +9,7 @@ import {
 	BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from "recharts"
 import dayjs from "dayjs"
+import Collapse from "@/components/basic/Collapse"
 
 const tabs = ["Entradas", "Saídas", "Insumos", "Relatórios", "Admin"]
 
@@ -47,23 +48,26 @@ export default function Lancamentos() {
 		...values,
 	}))
 
+	useEffect(() => {
+		//
+	}, [])
+
 	return (
 		<Card>
-			<div className="flex items-center justify-between mb-6">
+			<div className="flex items-center justify-between p-6 mb-6">
 				<h1 className="text-3xl font-bold text-gray-800">Lançamentos</h1>
 				<Button color="secondary" onClick={() => setAdd(true)}>+ Adicionar</Button>
 			</div>
 
-			<div className="flex gap-4 border-b border-gray-200 mb-4">
+			<div className="flex gap-4 border-b border-gray-200">
 				{tabs.map((tab) => (
 					<button
 						key={tab}
 						onClick={() => setActiveTab(tab)}
-						className={`relative pb-2 px-2 text-sm font-medium transition-all duration-150 border-b-2 ${
-							activeTab === tab
-								? "text-green-700 border-green-700"
-								: "text-gray-500 hover:text-green-600 border-transparent"
-						}`}
+						className={`relative pb-2 px-2 text-sm font-medium transition-all duration-150 border-b-2 ${activeTab === tab
+							? "text-green-700 border-green-700"
+							: "text-gray-500 hover:text-green-600 border-transparent"
+							}`}
 					>
 						{tab}
 						{tab === "Entradas" && <span className="ml-1 text-xs bg-gray-200 px-1 rounded">{receipts.length}</span>}
@@ -74,11 +78,10 @@ export default function Lancamentos() {
 
 			{/* TABELA */}
 			{["Entradas", "Saídas", "Insumos"].includes(activeTab) && (
-				<div className="overflow-x-auto rounded-2xl shadow-md bg-white">
+				<div className="overflow-x-auto">
 					<table className="min-w-full text-sm text-gray-700">
 						<thead className="bg-green-50 text-green-700 uppercase text-xs font-semibold">
 							<tr>
-								<th className="p-4 text-left"><input type="checkbox" /></th>
 								<th className="p-4 text-left">Autor</th>
 								<th className="p-4 text-left">Descrição</th>
 								<th className="p-4 text-left">Valor</th>
@@ -88,9 +91,12 @@ export default function Lancamentos() {
 							</tr>
 						</thead>
 						<tbody>
-							{(activeTab === "Entradas" ? receipts : activeTab === "Saídas" ? expenses : inputs).map(row => (
-								<RowLancamento key={row.id} row={row} />
-							))}
+							<Collapse in={activeTab == "Entradas"}>
+								{receipts.map(row => <RowLancamento key={row.id} row={row} />)}
+							</Collapse>
+							<Collapse in={activeTab == "Saídas"}>
+								{expenses.map(row => <RowLancamento key={row.id} row={row} />)}
+							</Collapse>
 						</tbody>
 					</table>
 				</div>
@@ -98,7 +104,7 @@ export default function Lancamentos() {
 
 			{/* RELATÓRIO */}
 			{activeTab === "Relatórios" && (
-				<div className="bg-white p-6 rounded-2xl shadow-md space-y-6">
+				<div className="bg-white p-6 rounded-2xl shadow-md">
 					<h2 className="text-2xl font-bold text-gray-800 mb-4">Relatório Financeiro</h2>
 					<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 						<div className="bg-green-50 p-4 rounded-xl shadow-sm">
