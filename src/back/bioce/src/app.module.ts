@@ -8,6 +8,7 @@ import { PraticasSustentaveisModule } from './service/praticas-sustentaveis/prat
 import { MetricaModule } from './service/metrica/metrica.module';
 import { InsumoModule } from "./model/insumo/insumo.module";
 import { AuthModule } from "./service/auth/auth.module";
+import {DadosFinanceirosModule} from "./service/dados-financeiros/dados-financeiros.module";
 
 const isPrimaryDown = process.env.DB_FAILOVER === 'true';
 
@@ -25,7 +26,8 @@ export function DatabaseOrmModule(): DynamicModule {
     PraticasSustentaveisModule,
     MetricaModule,
     InsumoModule,
-    AuthModule
+    AuthModule,
+    DadosFinanceirosModule
   ],
   providers: [],
 })

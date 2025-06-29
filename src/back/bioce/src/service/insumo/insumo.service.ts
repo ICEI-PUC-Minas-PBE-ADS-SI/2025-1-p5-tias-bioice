@@ -11,10 +11,11 @@ import {InsumoRepository} from "../../repository/insumo/insumo.repository";
 import {Insumo} from "../../model/insumo/insumo.entity";
 import {CriarInsumoDto} from "../../model/insumo/dto/criar-insumo.dto";
 import {MensagensInsumos} from "../../model/insumo/utils/mensgens-insumos";
+import {Produto} from "../../model/produto/produto.entity";
 
 @Injectable()
 export class InsumoService {
-    constructor(private readonly insumoService: InsumoRepository) {}
+    constructor(private readonly insumoRepository: InsumoRepository) {}
 
     async cadastrarInsumo(dto: CriarInsumoDto): Promise<Insumo> {
         const usuarioId = await Usuario.findOne({ where: { id: dto.usuarioId } });
@@ -35,7 +36,7 @@ export class InsumoService {
 
         await this.validarExistenciaDoInsumo(novoInsumo, deveExistir);
 
-        return await this.insumoService.salvarInsumo(novoInsumo);
+        return await this.insumoRepository.salvarInsumo(novoInsumo);
     }
 
     async validarExistenciaDoInsumo(
@@ -43,7 +44,7 @@ export class InsumoService {
         deveExistir: boolean,
     ): Promise<void> {
         const insumoExiste: boolean =
-            await this.insumoService.verificarExistenciaDoInsumo(insumo);
+            await this.insumoRepository.verificarExistenciaDoInsumo(insumo);
         if (insumoExiste && !deveExistir) {
             throw new ConflictException({
                 status: HttpStatus.CONFLICT,
@@ -61,7 +62,7 @@ export class InsumoService {
     async exibirInsumoPaginado(paginacao: PaginacaoDto) {
         const { pagina, limite } = paginacao;
         const [produtos, total] =
-            await this.insumoService.paginacaoInsumos(paginacao);
+            await this.insumoRepository.paginacaoInsumos(paginacao);
 
         return {
             data: produtos,
@@ -72,7 +73,7 @@ export class InsumoService {
     }
 
     async buscarInsumoPorId(id: number): Promise<Insumo> {
-        const insumo = await this.insumoService.buscarInsumoPorId(id);
+        const insumo = await this.insumoRepository.buscarInsumoPorId(id);
 
         if (!insumo) {
             throw new NotFoundException({
@@ -85,7 +86,7 @@ export class InsumoService {
     }
 
     async editarInsumo(id: number, dto: CriarInsumoDto): Promise<Insumo> {
-        const insumo = await this.insumoService.buscarInsumoPorId(id);
+        const insumo = await this.insumoRepository.buscarInsumoPorId(id);
         if (!insumo) {
             throw new NotFoundException({
                 status: HttpStatus.NOT_FOUND,
@@ -99,11 +100,11 @@ export class InsumoService {
         insumo.lote = dto.lote;
         insumo.descricao = dto.descricao;
 
-        return await this.insumoService.salvarInsumo(insumo);
+        return await this.insumoRepository.salvarInsumo(insumo);
     }
 
     async deletarInsumo(id: number) {
-        const insumo = await this.insumoService.buscarInsumoPorId(id);
+        const insumo = await this.insumoRepository.buscarInsumoPorId(id);
         if (!insumo) {
             throw new NotFoundException({
                 status: HttpStatus.NOT_FOUND,
@@ -111,6 +112,6 @@ export class InsumoService {
             });
         }
 
-        return await this.insumoService.deletarInsumoPorId(id);
+        return await this.insumoRepository.deletarInsumoPorId(id);
     }
 }
