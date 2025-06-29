@@ -1,6 +1,6 @@
 export default class API {
-	baseUrl: string | null = "https://two025-1-p5-tias-bioice.onrender.com"
-	// baseUrl: string | null = "http://localhost:3000"
+	// baseUrl: string | null = "https://two025-1-p5-tias-bioice.onrender.com"
+	baseUrl: string | null = "http://localhost:3000"
 	token: string | null = null
 
 	async genericFetch(uri: string, method: string = "GET", body: Record<string, number | string> | null = null) {
@@ -13,10 +13,22 @@ export default class API {
 		config.headers = new Headers()
 		config.headers.append("Content-Type", "application/json")
 		config.redirect = "follow"
+		config.signal = AbortSignal.timeout(20000)
 
 		if (this.token)
 			config.headers.append("Authorization", this.token)
-		return fetch(this.baseUrl + uri, config).then(r => r.json())
+		return fetch(this.baseUrl + uri, config).then(r => r.json()).catch(err => {
+			console.error(err)
+			return err
+		})
+	}
+
+	setToken(token: string) {
+		this.token = token
+	}
+
+	getToken() {
+		return this.token
 	}
 
 	genericGET(url: string) {
@@ -39,8 +51,10 @@ export default class API {
 		return this.genericFetch(url, "DELETE", null)
 	}
 
-	login(credentials: { email: string, password: string }) {
-		return this.genericPOST("/login", credentials)
+
+
+	login(credentials: { email: string, senha: string }) {
+		return this.genericPOST("/usuario/auth", credentials)
 	}
 
 	signup(credentials: { name: string, email: string, senha: string }) {

@@ -14,4 +14,8 @@ export class MensagensUsuario {
 
   static IMPOSSIVEL_EXCLUIR_USUARIO: string =
     'Não é possível excluir o usuário informado, visto que ele possui relações com outras entidades.';
+
+  static USUARIO_AUTENTICADO: string = 'Usuário autenticado com sucesso.';
+
+  static EMAIL_OU_SENHA_INCORRETOS: string = 'O email ou a senha informados estão incorretos.';
 }

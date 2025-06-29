@@ -11,10 +11,10 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { Metricas } from '../../model/metrica/metricas.entity';
-import { PaginacaoDto } from '../../model/produto/dto/paginacao.dto';
+import {PaginacaoDto} from "../../shared/dto/paginacao.dto";
 import { CriarMetricaDto } from '../../model/metrica/dto/criar-metrica.dto';
 import { EditarMetricasDto } from '../../model/metrica/dto/editar-metricas.dto';
-import {IdDto} from "../../shared/id.dto";
+import {IdDto} from "../../shared/dto/id.dto";
 import {MensagensMetricas} from "../../model/metrica/utils/metrica.mensagens";
 
 @Controller('metricas')

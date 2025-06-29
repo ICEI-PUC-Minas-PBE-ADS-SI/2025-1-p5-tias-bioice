@@ -1,9 +1,10 @@
 # Introdução
 
-O presente projeto, desenvolvido no âmbito da disciplina "Trabalho Interdisciplinar: Aplicações para Sustentabilidade" do curso de Sistemas de Informação da PUC Minas - Campus Betim, tem como objetivo principal auxiliar a sorveteria "Ice Delícias" a adotar práticas mais sustentáveis em sua gestão cotidiana. Com foco na sustentabilidade, o projeto visa integrar a gestão de estoque, evitando o desperdício de insumos perecíveis, e oferecer suporte financeiro, prevenindo gastos desnecessários e promovendo uma administração financeira saudável.
+O presente projeto, desenvolvido no âmbito da disciplina Trabalho Interdisciplinar: Aplicações para Sustentabilidade do curso de Sistemas de Informação da PUC Minas – Campus Betim, tem como objetivo principal auxiliar a sorveteria Ice Delícias na adoção de práticas mais sustentáveis em sua gestão cotidiana. Com foco na sustentabilidade, o projeto busca integrar a gestão de estoque, evitando o desperdício de insumos perecíveis, além de oferecer suporte financeiro, prevenindo gastos desnecessários e promovendo uma administração eficiente e alinhada aos princípios da responsabilidade ambiental.
 
-O contexto do município de Betim, que apresenta índices baixos de desenvolvimento sustentável, especialmente nos quesitos de proteção da vida terrestre, trabalho digno e crescimento econômico, e produção e consumo sustentáveis, motiva a equipe a buscar soluções tecnológicas que impactem positivamente a comunidade local. A parceria com a sorveteria "Ice Delícias" permitirá não apenas a implementação de um sistema eficiente, mas também o engajamento da população do entorno para elevar os índices de desenvolvimento sustentável da região. Este projeto, de natureza extensionista, busca promover a interação transformadora entre a academia e a sociedade, por meio da produção e aplicação do conhecimento em articulação com o ensino e a pesquisa.
+O contexto do município de Betim, que apresenta índices baixos de desenvolvimento sustentável — especialmente nos aspectos relacionados à proteção da vida terrestre, trabalho digno, crescimento econômico e práticas de produção e consumo sustentáveis —, evidencia a importância de soluções tecnológicas que possam gerar impacto positivo na comunidade local. A parceria com a sorveteria Ice Delícias proporciona uma oportunidade de implementação de um sistema eficaz, ao mesmo tempo em que estimula o engajamento da população do entorno na promoção de melhorias nos índices de desenvolvimento sustentável da região.
 
+Este projeto, de natureza extensionista, promove a interação transformadora entre a academia e a sociedade, por meio da produção e aplicação do conhecimento em articulação com o ensino e a pesquisa.
 
 
 ## Cliente 
@@ -46,11 +47,13 @@ Objetivos específicos:
 
 ## Justificativa
 
-A implementação deste software terá um impacto significativo tanto para a sorveteria "Ice Delícias" quanto para a sociedade em geral. Ao oferecer uma solução tecnológica que otimiza a gestão de estoque e finanças, o projeto contribuirá para a redução do desperdício de insumos, promovendo um consumo mais consciente e sustentável.
+A adoção de soluções tecnológicas que promovam uma gestão mais eficiente é um fator estratégico para o fortalecimento de micro e pequenas empresas no Brasil, especialmente no setor alimentício. A implementação do sistema proposto tende a gerar impactos significativos tanto para a sorveteria Ice Delícias quanto para a comunidade local, ao proporcionar uma ferramenta que contribui para a redução do desperdício de insumos perecíveis e a melhoria do controle financeiro. Essa abordagem favorece o consumo consciente e a sustentabilidade operacional do negócio.
 
-Além disso, a cidade de Betim apresenta desafios nos índices de desenvolvimento sustentável, especialmente em aspectos como trabalho digno, crescimento econômico e produção sustentável. Esse contexto reforça a necessidade de soluções que incentivem práticas empresariais responsáveis e que impactem positivamente a economia local.
+Segundo dados do Instituto Brasileiro de Geografia e Estatística (IBGE), mais de 30% dos alimentos produzidos no país são desperdiçados, o que representa cerca de 27 milhões de toneladas por ano. No setor de alimentação fora do lar, os desperdícios estão diretamente ligados à má gestão de estoque e à falta de processos digitalizados. A digitalização da gestão, portanto, surge como uma medida necessária para reduzir perdas e maximizar a eficiência operacional.
 
-A escolha dos objetivos específicos se justifica pela relevância de melhorar a administração de pequenos negócios, muitas vezes carentes de ferramentas eficientes para otimizar seus processos. O sistema não apenas ajudará a sorveteria a se tornar mais sustentável, mas também poderá servir como modelo para outros negócios locais que busquem adotar práticas semelhantes, ampliando o impacto positivo na comunidade.
+No contexto local, o município de Betim-MG apresenta desafios importantes nos indicadores de desenvolvimento sustentável. De acordo com o Atlas dos Objetivos de Desenvolvimento Sustentável (ODS) do Instituto de Pesquisa Econômica Aplicada (IPEA), Betim possui desempenho abaixo da média nacional em metas como "Trabalho decente e crescimento econômico" (ODS 8) e "Consumo e produção responsáveis" (ODS 12), o que reforça a urgência de medidas que integrem inovação tecnológica e responsabilidade socioambiental.
+
+A priorização de funcionalidades que envolvem a automatização de estoque, controle financeiro e indicadores de sustentabilidade se justifica pela carência de ferramentas eficientes voltadas para pequenos negócios. A adoção de práticas sustentáveis não apenas fortalece a competitividade da sorveteria no mercado, como também pode inspirar outros empreendimentos locais a seguir o mesmo caminho. Dessa forma, o sistema desenvolvido poderá servir como um modelo replicável, com potencial de impacto positivo ampliado sobre o ecossistema econômico e ambiental da região.
 
 ## Público-alvo
 
@@ -82,31 +85,3 @@ Além de otimizar a gestão interna, o sistema ajudará a sorveteria a se difere
 - Engajamento da comunidade em práticas ecológicas, como a reciclagem de embalagens.
 
 O projeto visa transformar a Ice Delícias em um modelo de negócio sustentável, oferecendo uma solução tecnológica que pode ser replicada por outras empresas com desafios semelhantes.
-
-## Stakeholders
-No contexto do projeto desenvolvido para a sorveteria Ice Delícias, identificamos os principais stakeholders e os papéis desempenhados por cada um no sistema. Cada papel desempenha funções distintas no processo, contribuindo para a gestão sustentável da empresa.
-
-Administrador da Sorveteria
-
-- Supervisiona o controle de estoque, evitando desperdícios de insumos.
-- Gerencia as finanças da empresa, analisando receitas e despesas.
-- Toma decisões estratégicas com base em relatórios gerados pelo sistema.
-- Implementa ações para engajar clientes e colaboradores na sustentabilidade.
-
-Interação com o sistema:
-
-- Consulta dashboards de controle financeiro e de estoque.
-- Ajusta pedidos de insumos conforme necessidade.
-- Define promoções e incentivos para clientes conscientes.
-
-Funcionário da Produção
-
-- Controla o uso dos ingredientes e atualiza o estoque no sistema.
-- Garante que os insumos sejam utilizados antes do vencimento.
-- Aplica práticas recomendadas para reduzir desperdícios.
-
-Interação com o sistema:
-
-- Registra entrada e saída de insumos.
-- Recebe notificações sobre estoque baixo ou produtos vencendo.
-- Acompanha sugestões de reaproveitamento sustentável de ingredientes.

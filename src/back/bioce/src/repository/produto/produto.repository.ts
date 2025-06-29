@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Produto } from '../../model/produto/produto.entity';
 import { SelectQueryBuilder } from 'typeorm';
-import { PaginacaoDto } from '../../model/produto/dto/paginacao.dto';
+import { PaginacaoDto } from '../../shared/dto/paginacao.dto';
 
 @Injectable()
 export class ProdutoRepository {

@@ -10,7 +10,7 @@ import { Produto } from '../../model/produto/produto.entity';
 import { Usuario } from '../../model/usuario/usuario.entity';
 import { MensagensProdutos } from '../../model/produto/utils/mensagens-produtos';
 import { ProdutoRepository } from '../../repository/produto/produto.repository';
-import { PaginacaoDto } from '../../model/produto/dto/paginacao.dto';
+import { PaginacaoDto } from '../../shared/dto/paginacao.dto';
 
 @Injectable()
 export class ProdutoService {

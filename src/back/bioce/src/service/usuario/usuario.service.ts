@@ -2,7 +2,7 @@ import {
   ConflictException,
   HttpStatus,
   Injectable,
-  NotFoundException,
+  NotFoundException, UnauthorizedException,
 } from '@nestjs/common';
 import { UsuarioRepository } from '../../repository/usuario/usuario.repository';
 import { CriarUsuarioDto } from '../../model/usuario/dto/criar-usuario.dto';
@@ -12,10 +12,16 @@ import { MensagensUsuario } from '../../model/usuario/utils/mensagens-usuario';
 import { EditarUsuarioDto } from '../../model/usuario/dto/editar-usuario.dto';
 import { NomeDoUsuario } from '../../model/usuario/nome-usuario.type';
 import { Count } from '../../shared/interfaces/count.interface';
+import {LoginDTO} from "../../model/usuario/dto/login.dto";
+import {AccessToken} from "../../model/auth/interfaces/access-token.interface";
+import {AuthService} from "../auth/auth.service";
 
 @Injectable()
 export class UsuarioService {
-  constructor(private readonly usuarioRepository: UsuarioRepository) {}
+  constructor(
+      private readonly usuarioRepository: UsuarioRepository,
+      private readonly authService: AuthService
+  ) {}
 
   async criarUsuario(criarUsuarioDto: CriarUsuarioDto): Promise<Usuario> {
     const usuario: Usuario =
@@ -115,5 +121,20 @@ export class UsuarioService {
       nivelPermissao: nivelPermissao,
       isExcluido: isExcluido
     });
+  }
+
+  async login(loginDto: LoginDTO): Promise<AccessToken> {
+    const { email, senha } = loginDto;
+    const usuario: Usuario | null = await this.usuarioRepository.buscarUsuario({
+      email: email
+    });
+
+    if (!usuario) {
+      throw new UnauthorizedException({
+        status: HttpStatus.UNAUTHORIZED,
+        message: MensagensUsuario.EMAIL_OU_SENHA_INCORRETOS
+      });
+    }
+    return await this.authService.login(usuario, senha);
   }
 }

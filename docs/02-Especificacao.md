@@ -58,18 +58,18 @@ Necessidades: Informações sobre promoções e incentivos à reciclagem.
 
 Com base na análise das personas, foram identificadas as seguintes histórias de usuários:
 
-| EU COMO... `PERSONA`   | QUERO/PRECISO ... `FUNCIONALIDADE`   | PARA ... `MOTIVO/VALOR`                 |
-|------------------------|--------------------------------------|-----------------------------------------|
-| Administrador          | Cadastrar insumos no sistema         | Controlar melhor o estoque              |
-| Administrador          | Alterar permissões                   | Permitir que outros administrem         |
-| Administrador          | Realizar cadastro de novos usuários  | Permitir acesso ao sistema a novos funcionários   |
-| Administrador          | Excluir usuários no sistema          | Tornar o acesso de ex-funcionários inacessíveis |
-| Administrador          | Gerar relatórios de vendas           | Identificar pontos fortes e elaborar melhorias |
-| Funcionário            | Registrar entrada e saída de insumos | Manter controle atualizado              |
-| Funcionário            | Registrar vendas de produtos         | Obter rastreabilidade da saída de produtos e registro dos lucros |
-| Funcionário            | Alterar informações de vendas de produtos | Corrigir possíveis erros após registrar vendas |
-| Administrador          | Cadastrar produtos no sistema        | Apoiar funcionários no registro de vendas |
-| Funcionário            | Cadastrar clientes                   | Rastrear maiores consumidores e conceder descontos |
+| EU COMO... `PERSONA`   | QUERO/PRECISO ... `FUNCIONALIDADE`                  | PARA ... `MOTIVO/VALOR`                                              |
+|------------------------|-----------------------------------------------------|----------------------------------------------------------------------|
+| **Administrador**      | Alterar permissões                                  | Permitir que outros administrem                                      |
+| **Administrador**      | Cadastrar insumos no sistema                        | Controlar melhor o estoque                                           |
+| **Administrador**      | Cadastrar produtos no sistema                       | Apoiar funcionários no registro de vendas                            |
+| **Administrador**      | Excluir usuários no sistema                         | Tornar o acesso de ex-funcionários inacessíveis                      |
+| **Administrador**      | Gerar relatórios de vendas                          | Identificar pontos fortes e elaborar melhorias                       |
+| **Administrador**      | Realizar cadastro de novos usuários                 | Permitir acesso ao sistema a novos funcionários                      |
+| **Funcionário**        | Alterar informações de vendas de produtos           | Corrigir possíveis erros após registrar vendas                       |
+| **Funcionário**        | Cadastrar clientes                                  | Rastrear maiores consumidores e conceder descontos                   |
+| **Funcionário**        | Registrar entrada e saída de insumos                | Manter controle atualizado                                           |
+| **Funcionário**        | Registrar vendas de produtos                        | Obter rastreabilidade da saída de produtos e registro dos lucros     |
 
 ## Requisitos
 
@@ -120,7 +120,6 @@ O projeto está restrito aos itens apresentados na tabela a seguir.
 |003| O sistema deve ser desenvolvido utilizando tecnologias acessíveis e de fácil manutenção pela equipe.      |
 |004| O banco de dados deve ser compatível com soluções gratuitas ou de baixo custo para viabilizar a implantação no cliente.      |
 |005| As funcionalidades devem priorizar a simplicidade e usabilidade, garantindo que os funcionários da sorveteria consigam operar o sistema sem necessidade de treinamento avançado |
-      |
 
 ## Diagrama de casos de uso
 

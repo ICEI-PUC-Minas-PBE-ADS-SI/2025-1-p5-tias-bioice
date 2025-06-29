@@ -1,9 +1,9 @@
-import { DataSource, DataSourceOptions } from 'typeorm';
+import { ConnectionOptions, DataSource, DataSourceOptions } from 'typeorm';
 import 'dotenv/config';
 
 const isPrimaryDown = process.env.DB_FAILOVER === 'true';
 
-export const dbConnection: DataSourceOptions = {
+export const dbConnection: ConnectionOptions = {
   type: 'mysql',
   host: process.env.HOST,
   port: Number(process.env.DB_PORT),
@@ -12,7 +12,7 @@ export const dbConnection: DataSourceOptions = {
   database: process.env.DATABASE,
   entities: [__dirname + '/src/model/**/*.entity{.ts,.js}'],
   synchronize: true,
-  logging: true,
+  logging: true
 };
 
 export const supabaseConfig: DataSourceOptions = {
@@ -30,7 +30,5 @@ export const supabaseConfig: DataSourceOptions = {
   },
 };
 
-const dataSource: DataSource = new DataSource(
-  isPrimaryDown ? supabaseConfig : dbConnection,
-);
+const dataSource: DataSource = new DataSource(isPrimaryDown ? supabaseConfig : dbConnection);
 export default dataSource;

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Usuario } from '../../model/usuario/usuario.entity';
 import { DataSource, SelectQueryBuilder } from 'typeorm';
+import {FindOptionsWhere} from "typeorm/find-options/FindOptionsWhere";
 
 @Injectable()
 export class UsuarioRepository {
@@ -45,5 +46,11 @@ export class UsuarioRepository {
   async performarExclusaoLogicaDeUsuario(id: number): Promise<void> {
     const usuario: Usuario = new Usuario({ id: id, isExcluido: true });
     await this.saveUsuario(usuario);
+  }
+
+  async buscarUsuario(whereClause: FindOptionsWhere<Usuario>): Promise<Usuario | null> {
+    return await Usuario.findOne({
+      where: whereClause
+    });
   }
 }

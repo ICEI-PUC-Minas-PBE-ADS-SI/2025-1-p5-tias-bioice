@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { ProdutoService } from '../../service/produto/produto.service';
 import { ProdutoDto } from '../../model/produto/dto/produto.dto';
-import { PaginacaoDto } from '../../model/produto/dto/paginacao.dto';
+import { PaginacaoDto } from '../../shared/dto/paginacao.dto';
 import { MensagensProdutos } from '../../model/produto/utils/mensagens-produtos';
 
 @Controller('produto')

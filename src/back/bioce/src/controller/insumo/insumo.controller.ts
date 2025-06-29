@@ -10,28 +10,28 @@ import {
     Query, Res,
 } from '@nestjs/common';
 import {Response} from 'express';
+import {CriarInsumoDto} from "../../model/insumo/dto/criar-insumo.dto";
 import {PaginacaoDto} from "../../shared/dto/paginacao.dto";
+import {InsumoService} from "../../service/insumo/insumo.service";
+import {MensagensInsumos} from "../../model/insumo/utils/mensgens-insumos";
 import {IdDto} from "../../shared/dto/id.dto";
-import {DadosFinanceirosService} from "../../service/dados-financeiros/dados-financeiros.service";
-import {MensagensDadosFinanceiros} from "../../model/dados-financeiros/utils/mensagens-dados-financeiros";
-import {CriarDadosFinanceirosDto} from "../../model/dados-financeiros/dto/criar-dados-financeiros.dto";
 
-@Controller('dadosFinanceiros')
-export class DadosFinanceirosController {
-    constructor(private readonly dadosFinanceirosService: DadosFinanceirosService) {
+@Controller('insumo')
+export class InsumoController {
+    constructor(private readonly insumoService: InsumoService) {
     }
 
     @Get()
-    async exibirDadosFinanceirosPaginado(
+    async exibirInsumosPaginado(
         @Query() paginacao: PaginacaoDto,
         @Res() response: Response,
     ): Promise<Response> {
         try {
-            const dadosFinaceiros = await this.dadosFinanceirosService.exibirDadosFinanceirosPaginado(paginacao);
+            const insumos = await this.insumoService.exibirInsumoPaginado(paginacao);
             return response.status(HttpStatus.OK).send({
                 status: HttpStatus.OK,
-                message: MensagensDadosFinanceiros.DADO_FINACEIRO_ECONTRADO,
-                data: dadosFinaceiros
+                message: MensagensInsumos.INSUMO_ENCONTRADOS,
+                data: insumos
             });
         } catch (e) {
             throw (e);
@@ -39,16 +39,16 @@ export class DadosFinanceirosController {
     }
 
     @Get('/:id')
-    async buscarDadoFinanceiroPorId(
+    async buscarInsumoPorId(
         @Param() id: IdDto,
         @Res() response: Response,
     ): Promise<Response> {
         try {
-            const dadoFinanceiro = await this.dadosFinanceirosService.buscarDadoFinanceiroPorId(id.id);
+            const insumo = await this.insumoService.buscarInsumoPorId(id.id);
             return response.status(HttpStatus.OK).send({
                 status: HttpStatus.OK,
-                message: MensagensDadosFinanceiros.DADO_FINACEIRO_ECONTRADO,
-                data: dadoFinanceiro
+                message: MensagensInsumos.INSUMO_ECONTRADO,
+                data: insumo
             });
         } catch (e) {
             throw (e);
@@ -57,16 +57,16 @@ export class DadosFinanceirosController {
     }
 
     @Post()
-    async cadastrarDadoFinanceiro(
-        @Body() insumo: CriarDadosFinanceirosDto,
+    async cadastrarInsumo(
+        @Body() insumo: CriarInsumoDto,
         @Res() response: Response,
     ): Promise<Response> {
         try {
-            const novoDadoFinanceiro = await this.dadosFinanceirosService.cadastrarDadoFinanceiro(insumo);
+            const novoInsumo = await this.insumoService.cadastrarInsumo(insumo);
             return response.status(HttpStatus.CREATED).send({
                 status: HttpStatus.CREATED,
-                message: MensagensDadosFinanceiros.DADO_FINACEIRO_CADASTRADO,
-                data: novoDadoFinanceiro
+                message: MensagensInsumos.INSUMO_CADASTRADO,
+                data: novoInsumo
             });
         } catch (e) {
             throw (e);
@@ -77,18 +77,18 @@ export class DadosFinanceirosController {
     @Put('/:id')
     async editarInsumo(
         @Param() id: IdDto,
-        @Body() insumo: CriarDadosFinanceirosDto,
+        @Body() insumo: CriarInsumoDto,
         @Res() response: Response,
     ): Promise<Response> {
         try {
-            const dadoFinanceiroAtulizado = await this.dadosFinanceirosService.editarDadoFinanceiro(
+            const insumoAtulizado = await this.insumoService.editarInsumo(
                 id.id,
                 insumo,
             );
             return response.status(HttpStatus.OK).send({
                 status: HttpStatus.OK,
-                message: MensagensDadosFinanceiros.DADO_FINACEIRO_ATUALIZADO,
-                data: dadoFinanceiroAtulizado
+                message: MensagensInsumos.INSUMO_ATUALIZADO,
+                data: insumoAtulizado
             });
         } catch (e) {
             throw (e);
@@ -97,15 +97,15 @@ export class DadosFinanceirosController {
     }
 
     @Delete('/:id')
-    async deletarDadoFinanceiro(
+    async deletarInsumo(
         @Param() id: IdDto,
         @Res() response: Response,
     ): Promise<Response> {
         try {
-            await this.dadosFinanceirosService.deletarDadoFinanceiro(id.id);
+            await this.insumoService.deletarInsumo(id.id);
             return response.status(HttpStatus.OK).send({
                 status: HttpStatus.OK,
-                message: MensagensDadosFinanceiros.DADO_FINACEIRO_DELETADO
+                message: MensagensInsumos.INSUMO_DELETADO
             });
         } catch (e) {
             throw (e);

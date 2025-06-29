@@ -1,4 +1,4 @@
-import { IsDefined, Max, Min } from 'class-validator';
+ import { IsDefined, Max, Min } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class PaginacaoDto {

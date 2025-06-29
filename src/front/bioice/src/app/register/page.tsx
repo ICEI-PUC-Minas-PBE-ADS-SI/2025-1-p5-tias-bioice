@@ -4,7 +4,7 @@ import { FcGoogle } from "react-icons/fc"
 import { FaApple } from "react-icons/fa"
 import Button from "@/components/basic/Button"
 import { useAppContext } from "@/contexts/AppContext"
-import { ChangeEventHandler, useState } from "react"
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { InputText } from "@/components/basic/InputText"
 

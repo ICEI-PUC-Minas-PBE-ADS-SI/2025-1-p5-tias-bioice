@@ -4,48 +4,52 @@ import { FcGoogle } from "react-icons/fc"
 import { FaApple } from "react-icons/fa"
 import Button from "@/components/basic/Button"
 import { useRouter } from "next/navigation"
-// import { useAppContext } from "@/contexts/AppContext";
-import { ChangeEvent, ReactNode, useState } from "react"
+
+import { ChangeEvent, useState } from "react"
 import { InputText } from "@/components/basic/InputText";
 import Collapse from "@/components/basic/Collapse";
+import { useAppContext } from "@/contexts/AppContext";
 
 export default function Login() {
   const router = useRouter()
-  // const context = useAppContext()
+  const context = useAppContext()
 
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [msg, setMsg] = useState("")
 
   const [form, setForm] = useState({
     email: "",
-    password: ""
+    senha: ""
   })
+
+  const errors: any = {
+    401: "Credenciais inválidas",
+    404: "Usuário não encontrado"
+  }
 
   async function logar() {
     setOpen(false)
     setLoading(true)
-    // context.api.login(form).then(r => {
-    //   console.log(r)
-    //   if (r.status == 201) {
-    //     context.setUser({
-    //       id: r.data.id,
-    //       email: r.data.email,
-    //       name: r.data.username
-    //     })
-    setTimeout(() => {
-      if (form.email == "teste@teste.com" && form.password == "123456")
+    context.api.login(form).then(r => {
+      if (r.status == 200) {
+        context.api.setToken(r.data.accessToken)
+        // context.setUser({
+        //   id: r.data.id,
+        //   email: r.data.email,
+        //   name: r.data.username
+        // })
+
         router.push("/app/dashboard")
-      else {
-        setOpen(true)
-        setLoading(false)
-      }
-    }, 2500)
-    //   }
-    // }).catch(r => console.log(r))
+      } else throw errors[r.status] ?? "Não foi possível se conectar."
+    }).catch(err => setTimeout(() => {
+      setMsg(err)
+      setOpen(true)
+      setLoading(false)
+    }, 1000))
   }
 
   async function onChange(e: ChangeEvent<HTMLInputElement>) {
-    console.log(e)
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
@@ -76,14 +80,28 @@ export default function Login() {
               placeholder="Email"
               value={form.email}
               onChange={onChange}
+              onKeyDown={e => {
+                console.log("apertou tecla")
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  document.getElementById("password")?.focus();
+                }
+              }}
             />
 
             <InputText
+              id="password"
               type="password"
-              name="password"
+              name="senha"
               placeholder="Senha"
-              value={form.password}
+              value={form.senha}
               onChange={onChange}
+              onKeyDown={e => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  logar();
+                }
+              }}
             />
 
             <div className="flex items-center gap-2">
@@ -93,7 +111,11 @@ export default function Login() {
               </label>
             </div>
 
-            <Button onClick={logar} loading={loading} fullwidth>
+            <Button
+              onClick={logar}
+              loading={loading}
+              fullwidth
+            >
               Entrar
             </Button>
           </div>
@@ -101,7 +123,7 @@ export default function Login() {
           <div className="text-black">
             <Collapse in={open}>
               <div className="p-3 my-3 shadow-md rounded bg-red-200 text-center font-bold text-red-900">
-                Erro ao logar!
+                {msg ?? "Erro ao logar!"}
               </div>
             </Collapse>
           </div>
