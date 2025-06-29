@@ -5,13 +5,13 @@ import Button from "@/components/basic/Button"
 import Card from "@/components/basic/Card"
 import MoneyInput from "@/components/basic/MoneyInput"
 
-import { useAppContext } from "@/contexts/AppContext"
 import Spinner from "@/components/basic/Spinner"
 import { Insumo, Lançamento } from "@/components/Sheets/Entry"
+import { useAppContext } from "@/contexts/AppContext"
 
-type Tabs = "Entradas" | "Saídas" | "Insumos" | "Relatórios" | "Admin"
+type Tabs = "Entradas" | "Saídas" | "Insumos" | "Relatórios"
 
-const tabs: Tabs[] = ["Entradas", "Saídas", "Insumos", "Relatórios", "Admin"]
+const tabs: Tabs[] = ["Entradas", "Saídas", "Insumos", "Relatórios"]
 
 export default function Lancamentos() {
 	const context = useAppContext()
@@ -27,29 +27,8 @@ export default function Lancamentos() {
 	const saldoFinal = () => {
 		const totalReceipts = receipts.reduce((sum, r) => sum + r.valor, 0)
 		const totalExpenses = expenses.reduce((sum, r) => sum + r.valor, 0)
-		const totalInputs = inputs.reduce((sum, r) => sum + r.valor, 0)
-		return totalReceipts - totalExpenses - totalInputs
+		return totalReceipts - totalExpenses
 	}
-
-	// const allData = [...receipts, ...expenses, ...inputs]
-	// const grouped = allData.reduce<Record<string, { receipt: number, expense: number, input: number }>>((acc, item) => {
-	// 	const dateKey = dayjs(item.dataOperacao).format("DD/MM")
-
-	// 	if (!acc[dateKey]) {
-	// 		acc[dateKey] = { receipt: 0, expense: 0, input: 0 }
-	// 	}
-
-	// 	if (receipts.includes(item)) acc[dateKey].receipt += item.valor
-	// 	else if (expenses.includes(item)) acc[dateKey].expense += item.valor
-	// 	else if (inputs.includes(item)) acc[dateKey].input += item.valor
-
-	// 	return acc
-	// }, {})
-
-	// const chartData = Object.entries(grouped).map(([date, values]) => ({
-	// 	name: date,
-	// 	...values,
-	// }))
 
 	useEffect(() => {
 		setLoading(true)
@@ -113,12 +92,20 @@ export default function Lancamentos() {
 				<div className="overflow-x-auto">
 					<table className="min-w-full text-sm text-gray-700">
 						<thead className="bg-green-50 text-green-700 uppercase text-xs font-semibold">
-							<tr>
-								<th className="p-4 text-left">Autor</th>
-								<th className="p-4 text-left">Descrição</th>
-								<th className="p-4 text-right">Valor</th>
-								<th className="p-4 text-left">Data</th>
-							</tr>
+							{activeTab == "Insumos"
+								? <tr>
+									<th className="p-4 text-left">Nome</th>
+									<th className="p-4 text-left">Lote</th>
+									<th className="p-4 text-left">Descrição</th>
+									<th className="p-4 text-left">Data Compra</th>
+									<th className="p-4 text-left">Data Vencimento</th>
+								</tr>
+								: <tr>
+									<th className="p-4 text-left">Autor</th>
+									<th className="p-4 text-left">Descrição</th>
+									<th className="p-4 text-right">Valor</th>
+									<th className="p-4 text-left">Data</th>
+								</tr>}
 						</thead>
 						<tbody>
 							{/* <Collapse in={activeTab == "Entradas"}> */}
@@ -151,12 +138,6 @@ export default function Lancamentos() {
 							R$ {expenses.reduce((sum, r) => sum + r.valor, 0).toFixed(2)}
 						</p>
 					</div>
-					<div className="bg-yellow-50 p-4 rounded-xl shadow-sm">
-						<h3 className="text-sm text-yellow-800 font-medium">Total de Insumos</h3>
-						<p className="text-2xl font-semibold text-yellow-600">
-							R$ {inputs.reduce((sum, r) => sum + r.valor, 0).toFixed(2)}
-						</p>
-					</div>
 				</div>
 
 				<div className="mt-4 bg-gray-50 p-4 rounded-xl shadow-inner text-right">
@@ -179,18 +160,6 @@ export default function Lancamentos() {
 							<Bar dataKey="input" fill="#FFBB28" name="Insumos" />
 						</BarChart>
 					</ResponsiveContainer> */}
-				</div>
-			</div>
-		)}
-
-		{/* ADMIN */}
-		{activeTab === "Admin" && (
-			<div className="bg-white p-6 rounded-2xl shadow-md space-y-4">
-				<h2 className="text-2xl font-bold text-gray-800">Administração</h2>
-				<p className="text-gray-600">Área destinada para configurações administrativas, permissões e controle do sistema.</p>
-				<div className="flex gap-4">
-					<Button>Gerenciar Usuários</Button>
-					<Button variant="border">Exportar Dados</Button>
 				</div>
 			</div>
 		)}
@@ -221,7 +190,6 @@ export default function Lancamentos() {
 							dataRegistro: new Date().toISOString(),
 							dataValidade: new Date("+30 days").toISOString(),
 							descricao: items.description,
-							valor: items.value,
 							lote: "LOTE",
 							nome: ""
 						}

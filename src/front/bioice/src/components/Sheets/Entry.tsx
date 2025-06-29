@@ -41,7 +41,6 @@ export function Lançamento({ data }: { data: Lançamento }) {
 export interface Insumo {
   id: number
   nome: string
-  valor: number
   descricao: string
   dataRegistro: string
   dataValidade: string
@@ -49,10 +48,6 @@ export interface Insumo {
 }
 
 export function Insumo({ data }: { data: Insumo }) {
-  const formattedBRL = new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-  }).format(data.valor)
   return (
     <tr className="hover:bg-gray-50 transition-colors">
       <td className="p-4">
@@ -63,9 +58,6 @@ export function Insumo({ data }: { data: Insumo }) {
       </td>
       <td className="p-4">
         {data.descricao}
-      </td>
-      <td className="p-4 text-right">
-        {formattedBRL}
       </td>
       <td className="p-4">
         {data.dataRegistro}
