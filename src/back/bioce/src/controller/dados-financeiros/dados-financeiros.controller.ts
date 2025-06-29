@@ -38,6 +38,22 @@ export class DadosFinanceirosController {
         }
     }
 
+    @Get("/relatorio")
+    async emitirRelatorioFinanceiro(
+        @Res() response: Response,
+    ): Promise<Response>{
+        try {
+            const relatorioDadosFinanceiros = await this.dadosFinanceirosService.emitirRelatorioFinanceiro();
+            return response.status(HttpStatus.OK).send({
+                status: HttpStatus.OK,
+                message: MensagensDadosFinanceiros.DADOS_FINACEIROS_ENCONTRADOS,
+                data: relatorioDadosFinanceiros
+            })
+        }catch (e) {
+            throw(e);
+        }
+    }
+
     @Get('/:id')
     async buscarDadoFinanceiroPorId(
         @Param() id: IdDto,
@@ -111,4 +127,6 @@ export class DadosFinanceirosController {
             throw (e);
         }
     }
+
+
 }

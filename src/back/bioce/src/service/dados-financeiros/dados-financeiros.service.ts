@@ -22,8 +22,6 @@ import {ProdutoService} from "../produto/produto.service";
 import {InsumoService} from "../insumo/insumo.service";
 import {Produto} from "../../model/produto/produto.entity";
 import {Insumo} from "../../model/insumo/insumo.entity";
-import {populateReverseDependencyGraph} from "ts-loader/dist/utils";
-
 
 @Injectable()
 export class DadosFinanceirosService {
@@ -162,7 +160,11 @@ export class DadosFinanceirosService {
 
         await this.dadoFinanceiroRepository.removerRelacoesFinanceirasPorDadoFinanceiro(id);
 
-        return  await this.dadoFinanceiroRepository.deletarDadoFinanceiro(id);;
+        return  await this.dadoFinanceiroRepository.deletarDadoFinanceiro(id);
     }
 
+
+    async emitirRelatorioFinanceiro(): Promise<any>{
+        return await this.dadoFinanceiroRepository.emitirRelatorioFinanceiro();
+    }
 }
