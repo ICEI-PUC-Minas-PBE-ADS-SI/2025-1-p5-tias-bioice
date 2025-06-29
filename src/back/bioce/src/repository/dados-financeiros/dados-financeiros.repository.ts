@@ -10,10 +10,12 @@ export class DadosFinanceirosRepository {
     }
 
     async buscarDadoFinanceiroPorId(id: number) {
-        return await DadosFinanceiros.findOne({
-            where: { id: id },
-            relations: ['usuario'],
-        });
+        return await DadosFinanceiros.createQueryBuilder("dadosFinanceiros")
+            .where("dadosFinanceiros.id = :id", {id})
+            .innerJoin("dadosFinanceiros.relacoesFinanceiras", "relacoesFinanceiras")
+            .leftJoinAndSelect("relacoesFinanceiras.produto", "produto")
+            .leftJoinAndSelect("relacoesFinanceiras.insumo", "insumo")
+            .getOne();
     }
 
     async paginacaoDadosFinanceiros(paginacao: PaginacaoDto) {

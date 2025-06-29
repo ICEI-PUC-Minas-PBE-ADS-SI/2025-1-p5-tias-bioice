@@ -58,11 +58,11 @@ export class DadosFinanceirosController {
 
     @Post()
     async cadastrarDadoFinanceiro(
-        @Body() insumo: CriarDadosFinanceirosDto,
+        @Body() dadosFinanceirosDto: CriarDadosFinanceirosDto,
         @Res() response: Response,
     ): Promise<Response> {
         try {
-            const novoDadoFinanceiro = await this.dadosFinanceirosService.cadastrarDadoFinanceiro(insumo);
+            const novoDadoFinanceiro = await this.dadosFinanceirosService.cadastrarDadoFinanceiro(dadosFinanceirosDto);
             return response.status(HttpStatus.CREATED).send({
                 status: HttpStatus.CREATED,
                 message: MensagensDadosFinanceiros.DADO_FINACEIRO_CADASTRADO,
