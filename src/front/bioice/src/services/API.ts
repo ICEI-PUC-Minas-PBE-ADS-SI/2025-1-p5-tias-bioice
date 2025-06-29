@@ -25,6 +25,16 @@ export default class API {
 		})
 	}
 
+	toQueryString(params: Record<string, string | number>): string {
+		const searchParams = new URLSearchParams();
+
+		for (const [key, value] of Object.entries(params)) {
+			searchParams.append(key, value.toString());
+		}
+
+		return "?" + searchParams.toString();
+	}
+
 	setToken(token: string) {
 		this.token = token
 	}
@@ -53,7 +63,7 @@ export default class API {
 		return this.genericFetch(url, "DELETE", null)
 	}
 
-
+	///////////////////////////////////////////////////////////////////////////
 
 	login(credentials: { email: string, senha: string }) {
 		return this.genericPOST("/usuario/auth", credentials)
@@ -63,13 +73,23 @@ export default class API {
 		return this.genericPOST("/usuario", { ...credentials, nivelPermissao: "admin" })
 	}
 
+	getEmployees(query?: Record<string, string | number>) {
+		let q = ""
+		if (query) q = this.toQueryString(query)
+		return this.genericGET("/usuario" + q)
+	}
+
+	insertNewEmployee() {
+		//
+	}
+
 	updateEmployee(data: RowFuncionarioData) {
 		return this.genericPUT("/usuario/" + data.id, {
 			id: Number(data.id),
 			name: data.username,
 			email: data.email,
 			senha: data.password,
-			nivelPermissao: data.nivel_permissao,
+			nivelPermissao: data.nivelPermissao,
 		})
 	}
 }
