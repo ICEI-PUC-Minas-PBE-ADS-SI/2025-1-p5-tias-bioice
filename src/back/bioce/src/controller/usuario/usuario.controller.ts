@@ -13,7 +13,7 @@ import { CriarUsuarioDto } from '../../model/usuario/dto/criar-usuario.dto';
 import { Usuario } from '../../model/usuario/usuario.entity';
 import { UsuarioService } from '../../service/usuario/usuario.service';
 import { Response } from 'express';
-import { IdDto } from "../../shared/dto/id.dto";
+import {IdDto} from "../../shared/dto/id.dto";
 import { EditarUsuarioDto } from '../../model/usuario/dto/editar-usuario.dto';
 import { MensagensUsuario } from '../../model/usuario/utils/mensagens-usuario';
 import { DataSource } from 'typeorm';
@@ -68,6 +68,13 @@ export class UsuarioController {
     @Param() id: IdDto,
     @Res() response: Response,
   ): Promise<Response> {
+    const connectionDetails = {
+      name: this.dataSource.name,
+      type: this.dataSource.options.type,
+      database: this.dataSource.options.database,
+      isConnected: this.dataSource.isInitialized,
+    };
+
     try {
       const usuario: Partial<Usuario> =
         await this.usuarioService.getUsuarioById(id.id);
