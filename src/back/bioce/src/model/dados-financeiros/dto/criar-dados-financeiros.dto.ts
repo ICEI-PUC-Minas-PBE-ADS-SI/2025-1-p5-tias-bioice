@@ -1,4 +1,27 @@
-import {IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength} from "class-validator";
+import {
+    IsArray,
+    IsBoolean,
+    IsNotEmpty,
+    IsNumber,
+    IsOptional,
+    IsString,
+    MaxLength,
+    ValidateNested
+} from "class-validator";
+
+export class ItemMovimentadoDto {
+    @IsNotEmpty()
+    @IsNumber()
+    quantitativo: number
+
+    @IsOptional()
+    @IsNumber()
+    produtoId?: number;
+
+    @IsOptional()
+    @IsNumber()
+    insumoId?: number;
+}
 
 export class CriarDadosFinanceirosDto {
     @IsNotEmpty()
@@ -16,18 +39,9 @@ export class CriarDadosFinanceirosDto {
 
     @IsNotEmpty()
     @IsNumber()
-    quantitativo: number;
-
-    @IsNotEmpty()
-    @IsNumber()
     usuarioId: number;
 
-    @IsOptional()
-    @IsNumber()
-    produtoId?: number;
-
-    @IsOptional()
-    @IsNumber()
-    insumoId?: number;
-
+    @ValidateNested()
+    @IsArray()
+    itens: ItemMovimentadoDto[]
 }
