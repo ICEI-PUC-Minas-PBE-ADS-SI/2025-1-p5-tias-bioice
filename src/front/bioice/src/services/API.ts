@@ -23,6 +23,10 @@ export default class API {
 		})
 	}
 
+	setToken(token: string) {
+		this.token = token
+	}
+
 	genericGET(url: string) {
 		return this.genericFetch(url, "GET", null)
 	}
@@ -43,8 +47,8 @@ export default class API {
 		return this.genericFetch(url, "DELETE", null)
 	}
 
-	login(credentials: { email: string, password: string }) {
-		return this.genericPOST("/login", credentials)
+	login(credentials: { email: string, senha: string }) {
+		return this.genericPOST("/usuario/auth", credentials)
 	}
 
 	signup(credentials: { name: string, email: string, senha: string }) {
