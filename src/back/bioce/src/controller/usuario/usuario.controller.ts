@@ -6,7 +6,7 @@ import {
   HttpStatus,
   Param,
   Post,
-  Put,
+  Put, Query,
   Res,
 } from '@nestjs/common';
 import { CriarUsuarioDto } from '../../model/usuario/dto/criar-usuario.dto';
@@ -19,6 +19,9 @@ import { MensagensUsuario } from '../../model/usuario/utils/mensagens-usuario';
 import { DataSource } from 'typeorm';
 import {AccessToken} from "../../model/auth/interfaces/access-token.interface";
 import {LoginDTO} from "../../model/usuario/dto/login.dto";
+import {PaginacaoDto} from "../../shared/dto/paginacao.dto";
+import {MensagensInsumos} from "../../model/insumo/utils/mensgens-insumos";
+import {RespostaPaginada} from "../../shared/interfaces/resposta-paginada.interface";
 
 @Controller('usuario')
 export class UsuarioController {
@@ -121,6 +124,23 @@ export class UsuarioController {
       });
     } catch (e) {
       throw e;
+    }
+  }
+
+  @Get()
+  async buscarUsuariosPaginado(
+      @Query() paginacao: PaginacaoDto,
+      @Res() response: Response,
+  ): Promise<Response> {
+    try {
+      const respostaPaginada: RespostaPaginada<Usuario> = await this.usuarioService.buscarUsuariosPaginado(paginacao);
+      return response.status(HttpStatus.OK).send({
+        status: HttpStatus.OK,
+        message: MensagensInsumos.INSUMO_ENCONTRADOS,
+        data: respostaPaginada
+      });
+    } catch (e) {
+      throw (e);
     }
   }
 }
