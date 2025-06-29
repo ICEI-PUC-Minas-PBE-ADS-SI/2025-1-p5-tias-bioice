@@ -2,7 +2,7 @@
 
 import Card from "@/components/basic/Card";
 import { useAppContext } from "@/contexts/AppContext";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import {
   BarChart,
   Bar,

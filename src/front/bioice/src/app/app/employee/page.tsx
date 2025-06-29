@@ -2,37 +2,35 @@
 
 import { useState, ChangeEvent, FormEvent } from "react";
 import RowFuncionario, { RowFuncionarioData } from "@/components/basic/RowFuncionario";
-
-type FormState = {
-  username: string;
-  email: string;
-  nivel_permissao: string;
-  password: string;
-};
+import Button from "@/components/basic/Button";
 
 export default function ListaUsuarios() {
   const [data, setData] = useState<RowFuncionarioData[]>([
     {
-      id_usuario: 1,
+      id: 1,
       username: "admin",
       email: "admin@sorveteria.com",
-      nivel_permissao: ["admin"],
+      nivel_permissao: "admin",
+      password: ""
     },
     {
-      id_usuario: 2,
+      id: 2,
       username: "usuario_teste",
       email: "teste@sorveteria.com",
-      nivel_permissao: ["usuário"],
+      nivel_permissao: "usuário",
+      password: ""
     },
-  ]);
+  ])
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [form, setForm] = useState<FormState>({
+  const [editing, setEditing] = useState(false);
+  const [form, setForm] = useState<RowFuncionarioData>({
+    id: null,
     username: "",
     email: "",
     nivel_permissao: "",
     password: "",
-  });
+  })
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -41,20 +39,25 @@ export default function ListaUsuarios() {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    if (editing) {
+      editEmployee(form.id)
+      setIsModalOpen(false);
+    } else {
+      const maxId = data.reduce((max, user) => Math.max(max, user?.id ?? 0), 0);
+      const newUser: RowFuncionarioData = {
+        id: maxId + 1,
+        username: form.username,
+        email: form.email,
+        nivel_permissao: form.nivel_permissao,
+        password: form.password
+      };
 
-    const maxId = data.reduce((max, user) => Math.max(max, user.id_usuario), 0);
-    const newUser: RowFuncionarioData = {
-      id_usuario: maxId + 1,
-      username: form.username,
-      email: form.email,
-      nivel_permissao: [form.nivel_permissao],
-    };
+      setData((prev) => [...prev, newUser]);
+      setIsModalOpen(false);
+    }
 
-    setData((prev) => [...prev, newUser]);
-    setIsModalOpen(false);
-
-    // Limpa o formulário
     setForm({
+      id: null,
       username: "",
       email: "",
       nivel_permissao: "",
@@ -62,31 +65,73 @@ export default function ListaUsuarios() {
     });
   };
 
+  function editEmployeeStart(id: null | number) {
+    setEditing(true)
+    setIsModalOpen(true)
+    data.forEach(user => user.id == id && setForm(user))
+  }
+
+  function editEmployee(id: null | number) {
+    if (!id) return
+
+    const users = data.map(user => {
+      if (user.id == id)
+        return {
+          ...form,
+          id_usuario: id
+        }
+      return user
+    })
+
+    setData(users)
+  }
+
+  function deleteEmployee(id: null | number) {
+    if (!id) return
+
+    const users = data.filter(user => {
+      if (user.id != id) return user
+    })
+
+    setData(users)
+  }
+
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-800">Usuários</h1>
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-        >
-          + Novo Usuário
-        </button>
+    <div className="bg-white rounded-2xl shadow-lg">
+      <div className="p-6 rounded-2xl">
+        <div className="flex items-center justify-between">
+          <h1 className="text-3xl font-bold text-gray-800">Usuários</h1>
+          <Button
+            onClick={() => {
+              setEditing(false)
+              setIsModalOpen(true)
+            }}
+            color="secondary"
+          >
+            + Novo Usuário
+          </Button>
+        </div>
       </div>
 
-      <div className="overflow-x-auto border rounded-xl">
-        <table className="min-w-full table-fixed text-sm text-left text-gray-700">
-          <thead className="bg-green-100 text-green-700 uppercase text-xs font-bold">
+      <div className="overflow-x-auto">
+        <table className="min-w-full text-sm text-gray-700">
+          <thead className="bg-green-50 text-green-700 uppercase text-xs font-semibold">
             <tr>
-              <th className="p-4 w-20">Id</th>
-              <th className="p-4 w-40">Nome de usuário</th>
-              <th className="p-4 w-45">Email</th>
-              <th className="p-4 w-40">Permissões</th>
+              <th className="p-4 w-20">ID</th>
+              <th className="p-4 text-left w-40">Nome de usuário</th>
+              <th className="p-4 text-left w-45">Email</th>
+              <th className="p-4 text-left w-40">Nível</th>
+              <th className="p-4 text-left w-40">Ações</th>
             </tr>
           </thead>
           <tbody>
             {data.map((row) => (
-              <RowFuncionario key={row.id_usuario} row={row} />
+              <RowFuncionario
+                key={row.id}
+                row={row}
+                onEdit={() => editEmployeeStart(row.id)}
+                onDelete={() => deleteEmployee(row.id)}
+              />
             ))}
           </tbody>
         </table>
@@ -95,7 +140,12 @@ export default function ListaUsuarios() {
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-white/20 backdrop-blur-sm">
           <div className="bg-white rounded-xl w-full max-w-md p-6 shadow-2xl">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Cadastrar Usuário</h2>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+              {editing
+                ? "Editando Usuário"
+                : "Cadastrar Usuário"}
+
+            </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Campo Nome de usuário */}
               <div>
@@ -150,13 +200,18 @@ export default function ListaUsuarios() {
 
               {/* Campo Senha */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">Senha</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  {editing
+                    ? "Alterar Senha"
+                    : "Senha"}
+
+                </label>
                 <input
                   type="password"
                   name="password"
                   value={form.password}
                   onChange={handleChange}
-                  required
+                  required={!editing}
                   className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-600"
                 />
               </div>
