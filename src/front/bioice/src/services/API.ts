@@ -9,7 +9,7 @@ export default class API {
 		const config: RequestInit = {
 			method: method
 		}
-		if (method == "POST" && body)
+		if (["POST", "PUT"].includes(method) && body)
 			config.body = JSON.stringify(body)
 
 		config.headers = new Headers()
@@ -79,12 +79,21 @@ export default class API {
 		return this.genericGET("/usuario" + q)
 	}
 
-	insertNewEmployee() {
-		//
+	addEmployee(data: RowFuncionarioData) {
+		return this.genericPOST("/usuario", {
+			name: data.username,
+			email: data.email,
+			senha: data.password,
+			nivelPermissao: "editor",
+		})
+	}
+
+	deleteEmployee(id: string | number) {
+		return this.genericDELETE("/usuario/" + id)
 	}
 
 	updateEmployee(data: RowFuncionarioData) {
-		return this.genericPUT("/usuario/" + data.id, {
+		return this.genericPUT("/usuario/", {
 			id: Number(data.id),
 			name: data.username,
 			email: data.email,

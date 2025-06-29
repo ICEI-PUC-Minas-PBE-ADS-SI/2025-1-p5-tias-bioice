@@ -33,17 +33,12 @@ export default function ListaUsuarios() {
       editEmployee(form.id)
       setIsModalOpen(false);
     } else {
-      const maxId = data.reduce((max, user) => Math.max(max, user?.id ?? 0), 0);
-      const newUser: RowFuncionarioData = {
-        id: maxId + 1,
-        username: form.username,
-        email: form.email,
-        nivelPermissao: form.nivelPermissao,
-        password: form.password
-      };
-
-      setData((prev) => [...prev, newUser]);
-      setIsModalOpen(false);
+      context.api.addEmployee(form).then(r => {
+        if (r.status == 201) {
+          setIsModalOpen(false);
+          console.log("success")
+        } else console.log(r.message)
+      })
     }
 
     setForm({
@@ -64,28 +59,39 @@ export default function ListaUsuarios() {
   function editEmployee(id: null | number) {
     if (!id) return
 
-    context.api.updateEmployee(form)
-
-    const users = data.map(user => {
-      if (user.id == id)
-        return {
-          ...form,
-          id_usuario: id
-        }
-      return user
+    context.api.updateEmployee(form).then(r => {
+      console.log(r)
+      if (r.status == 200) {
+        setLoading(true)
+        console.log("sucesso")
+      }
     })
 
-    setData(users)
+    // const users = data.map(user => {
+    //   if (user.id == id)
+    //     return {
+    //       ...form,
+    //       id_usuario: id
+    //     }
+    //   return user
+    // })
+
+    // setData(users)
   }
 
   function deleteEmployee(id: null | number) {
     if (!id) return
 
-    const users = data.filter(user => {
-      if (user.id != id) return user
+    context.api.deleteEmployee(id).then(r => {
+      if (r.status == 200) setLoading(true)
+    }).catch(err => {
+      console.error(err)
     })
+    // const users = data.filter(user => {
+    //   if (user.id != id) return user
+    // })
 
-    setData(users)
+    // setData(users)
   }
 
   useEffect(() => {
@@ -147,8 +153,8 @@ export default function ListaUsuarios() {
             <div className="bg-white rounded-xl w-full max-w-md p-6 shadow-2xl">
               <h2 className="text-2xl font-semibold text-gray-800 mb-4">
                 {editing
-                  ? "Editando Usuário"
-                  : "Cadastrar Usuário"}
+                  ? "Editando Funcionário"
+                  : "Cadastrar Funcionário"}
 
               </h2>
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -176,31 +182,6 @@ export default function ListaUsuarios() {
                     required
                     className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-600"
                   />
-                </div>
-
-                {/* Permissões com radio buttons */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Permissões</label>
-                  <div className="space-y-2">
-                    {["admin", "usuário", "gerente"].map((perm) => (
-                      <label key={perm} className="flex items-center space-x-2 text-gray-700">
-                        <input
-                          type="radio"
-                          name="nivel_permissao"
-                          value={perm}
-                          checked={form.nivelPermissao === perm}
-                          onChange={(e) =>
-                            setForm((prev) => ({
-                              ...prev,
-                              nivel_permissao: e.target.value,
-                            }))
-                          }
-                          className="text-green-600 focus:ring-green-500"
-                        />
-                        <span className="capitalize">{perm}</span>
-                      </label>
-                    ))}
-                  </div>
                 </div>
 
                 {/* Campo Senha */}
