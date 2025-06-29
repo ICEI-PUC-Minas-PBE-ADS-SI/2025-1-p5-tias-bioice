@@ -34,9 +34,15 @@ export default function RowFuncionario({ row, onEdit, onDelete }: Props) {
   );
 }
 
-function IconButton(props: any) {
+interface IconButton {
+  children?: React.ReactNode
+  color?: string
+  onClick?: any
+}
 
-  function colorFilter(color: string) {
+function IconButton(props: IconButton) {
+
+  function colorFilter(color: string | undefined) {
     switch (color) {
       case "red":
         return " text-red-500"

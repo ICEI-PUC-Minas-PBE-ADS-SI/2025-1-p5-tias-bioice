@@ -1,3 +1,5 @@
+import { RowFuncionarioData } from "@/components/basic/RowFuncionario"
+
 export default class API {
 	// baseUrl: string | null = "https://two025-1-p5-tias-bioice.onrender.com"
 	baseUrl: string | null = "http://localhost:3000"
@@ -59,5 +61,15 @@ export default class API {
 
 	signup(credentials: { name: string, email: string, senha: string }) {
 		return this.genericPOST("/usuario", { ...credentials, nivelPermissao: "admin" })
+	}
+
+	updateEmployee(data: RowFuncionarioData) {
+		return this.genericPUT("/usuario/" + data.id, {
+			id: Number(data.id),
+			name: data.username,
+			email: data.email,
+			senha: data.password,
+			nivelPermissao: data.nivel_permissao,
+		})
 	}
 }

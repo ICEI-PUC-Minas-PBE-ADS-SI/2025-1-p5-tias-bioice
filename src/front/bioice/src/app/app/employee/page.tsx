@@ -3,8 +3,11 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import RowFuncionario, { RowFuncionarioData } from "@/components/basic/RowFuncionario";
 import Button from "@/components/basic/Button";
+import { useAppContext } from "@/contexts/AppContext";
 
 export default function ListaUsuarios() {
+  const context = useAppContext()
+
   const [data, setData] = useState<RowFuncionarioData[]>([
     {
       id: 1,
@@ -73,6 +76,8 @@ export default function ListaUsuarios() {
 
   function editEmployee(id: null | number) {
     if (!id) return
+    
+    context.api.updateEmployee(form)
 
     const users = data.map(user => {
       if (user.id == id)
@@ -218,19 +223,12 @@ export default function ListaUsuarios() {
 
               {/* Botões */}
               <div className="flex justify-end gap-2 pt-4">
-                <button
-                  type="button"
-                  onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100"
-                >
+                <Button color="error" onClick={() => setIsModalOpen(false)}>
                   Cancelar
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
-                >
+                </Button>
+                <Button type="submit" color="secondary">
                   Salvar
-                </button>
+                </Button>
               </div>
             </form>
           </div>

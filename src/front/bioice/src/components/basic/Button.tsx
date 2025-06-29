@@ -9,9 +9,10 @@ interface ButtonI {
 	onClick?: () => void
 	loading?: boolean
 	fullwidth?: boolean
+	type?: "submit" | "reset" | "button" | undefined
 }
 
-export default function Button({ color = "primary", variant = "filled", onClick = () => { }, loading, fullwidth, children }: ButtonI) {
+export default function Button({ color = "primary", variant = "filled", onClick = () => { }, loading, type, fullwidth, children }: ButtonI) {
 	const [className, setClassName] = useState("")
 
 	useEffect(() => {
@@ -58,6 +59,7 @@ export default function Button({ color = "primary", variant = "filled", onClick 
 		<button
 			className={"border-2 cursor-pointer font-bold px-6 py-3 rounded-xl transition-all duration-200 " + className}
 			onClick={onClick}
+			type={type}
 		>
 			<div className="flex justify-center gap-3">
 				{children}
