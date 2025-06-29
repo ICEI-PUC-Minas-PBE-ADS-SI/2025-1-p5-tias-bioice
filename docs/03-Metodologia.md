@@ -157,6 +157,10 @@ Legenda:
 | Responsável   | Tarefa/Requisito | Iniciado em    | Prazo      | Status | Terminado em    |
 | :----         |    :----         |      :----:    | :----:     | :----: | :----:          |
 | Saul       | Correções do GitHub com base nos comentários das sprints     | 28/06/2025     | 29/06/2025 | ✔️   | 28/06/2025      |
+| Daniel       | Backend     | 28/06/2025     | 29/06/2025 | ✔️   | 28/06/2025      |
+| Daniel       | CRUD Insumos     | 28/06/2025     | 29/06/2025 | ✔️   | 28/06/2025      |
+| Daniel       | Correção de bugs     | 28/06/2025     | 29/06/2025 | ✔️   | 28/06/2025      |
+| Saul       | Correções do GitHub com base nos comentários das sprints     | 28/06/2025     | 29/06/2025 | ✔️   | 28/06/2025      |
 | Resp       | Taref   | 11/05/2025     | 08/06/2025 | ❌   | 07/06/2025      |
 | Resp       | Taref    | 11/05/2025     | 08/06/2025 | ❌    | 07/06/2025      |
 | Resp      | Taref | 02/06/2025     |02/06/2025 | ❌    | 02/06/2025      |
