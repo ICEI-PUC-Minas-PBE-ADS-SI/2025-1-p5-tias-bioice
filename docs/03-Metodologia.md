@@ -167,6 +167,7 @@ Atualizado em: 29/06/2025
 | :----         |    :----         |      :----:    | :----:     | :----: | :----:          |
 | Saul       | Correções do GitHub com base nos comentários das sprints     | 28/06/2025     | 29/06/2025 | ✔️   | 28/06/2025      |
 | Saul       | Listagem de usuários paginada     | 28/06/2025     | 29/06/2025 | ✔️   | 28/06/2025      |
+| Saul       | Elaboração Relatório final de extensão     | 29/06/2025     | 29/06/2025 | ✔️   | 29/06/2025      |
 | Daniel       | CRUD Insumos     | 28/06/2025     | 20/06/2025 | ✔️   | 29/06/2025      |
 | Daniel       | Correção de bugs     | 28/06/2025     | 27/06/2025 | ✔️   | 29/06/2025      |
 
