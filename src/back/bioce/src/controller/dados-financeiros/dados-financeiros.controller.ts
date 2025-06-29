@@ -16,7 +16,7 @@ import {DadosFinanceirosService} from "../../service/dados-financeiros/dados-fin
 import {MensagensDadosFinanceiros} from "../../model/dados-financeiros/utils/mensagens-dados-financeiros";
 import {CriarDadosFinanceirosDto} from "../../model/dados-financeiros/dto/criar-dados-financeiros.dto";
 
-@Controller('dadosFinanceiros')
+@Controller('dados-financeiros')
 export class DadosFinanceirosController {
     constructor(private readonly dadosFinanceirosService: DadosFinanceirosService) {
     }
