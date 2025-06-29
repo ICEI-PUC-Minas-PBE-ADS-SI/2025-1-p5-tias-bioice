@@ -1,51 +1,77 @@
 "use client"
 
-type Status = "Ativo" | "Inativo";
-
-export interface RowData {
+export interface Lançamento {
   id: number
-  author: string
-  role: string
-  value: number
-  description: string
-  date: Date
-  titles: string[]
-  status: Status
+  usuario: {
+    username: string
+    nivelPermissao: string
+  }
+  valor: number
+  descricao: string
+  dataOperacao: string
 }
 
-export default function Entry({ row }: { row: RowData }) {
+
+export function Lançamento({ data }: { data: Lançamento }) {
+  const formattedBRL = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(data.valor)
   return (
-    <tr className="border-t hover:bg-gray-50 transition-colors">
-      <td className="p-4"><input type="checkbox" /></td>
+    <tr className="hover:bg-gray-50 transition-colors">
       <td className="p-4">
         <div className="flex flex-col">
-          <span className="font-semibold">{row.author}</span>
-          <span className="text-xs text-gray-400">{row.role}</span>
+          <span className="font-semibold">{data.usuario.username}</span>
+          <span className="text-xs text-gray-400">{data.usuario.nivelPermissao}</span>
         </div>
       </td>
       <td className="p-4">
-        {row.description}
+        {data.descricao}
+      </td>
+      <td className="p-4 text-right">
+        {formattedBRL}
       </td>
       <td className="p-4">
-        {row.value}
+        {data.dataOperacao}
       </td>
-      <td className="p-4">
-        {row.date.toISOString()}
-      </td>
-      <td className="p-4">
-        {row.titles.join(", ")}
-      </td>
+    </tr>
+  );
+}
 
+export interface Insumo {
+  id: number
+  nome: string
+  valor: number
+  descricao: string
+  dataRegistro: string
+  dataValidade: string
+  lote: string
+}
+
+export function Insumo({ data }: { data: Insumo }) {
+  const formattedBRL = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(data.valor)
+  return (
+    <tr className="hover:bg-gray-50 transition-colors">
       <td className="p-4">
-        {row.status === "Ativo" ? (
-          <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full font-semibold">
-            Ativo
-          </span>
-        ) : (
-          <span className="text-xs bg-gray-300/30 text-gray-500 px-2 py-1 rounded-full font-semibold">
-            Inativo
-          </span>
-        )}
+        {data.nome}
+      </td>
+      <td className="p-4">
+        {data.lote}
+      </td>
+      <td className="p-4">
+        {data.descricao}
+      </td>
+      <td className="p-4 text-right">
+        {formattedBRL}
+      </td>
+      <td className="p-4">
+        {data.dataRegistro}
+      </td>
+      <td className="p-4">
+        {data.dataValidade}
       </td>
     </tr>
   );

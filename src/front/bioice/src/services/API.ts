@@ -25,7 +25,7 @@ export default class API {
 		})
 	}
 
-	toQueryString(params: Record<string, string | number>): string {
+	toQueryString(params: Record<string, string | number | boolean>): string {
 		const searchParams = new URLSearchParams();
 
 		for (const [key, value] of Object.entries(params)) {
@@ -101,13 +101,28 @@ export default class API {
 			nivelPermissao: data.nivelPermissao,
 		})
 	}
+
+	// ENTRADAS E SAÍDAS
+	getEntries(query?: Record<string, string | number | boolean>) {
+		let q = ""
+		if (query) q = this.toQueryString(query)
+		
+		return this.genericGET("/dados-financeiros" + q)
+	}
+
+	getSupplies(query?: Record<string, string | number | boolean>) {
+		let q = ""
+		if (query) q = this.toQueryString(query)
+		
+		return this.genericGET("/insumo" + q)
+	}
+
 	//COFIGURAÇÃO
 	getCurrentUser() {
-		return this.genericGET("/usuario/me"); 
+		return this.genericGET("/usuario/me")
 	}
 
 	updateUser(data: { nome: string, sobrenome: string, email: string, telefone: string }) {
-		return this.genericPUT("/usuario/me", data); 
+		return this.genericPUT("/usuario/me", data)
 	}
-
 }

@@ -155,7 +155,7 @@ Legenda:
 - 
 #### Sprint 5
 - Daniel : Responsável pelo desenvovimento backend.
-- Danilo : Responsável por auxiliar o backend.
+- Danilo : Responsável por auxiliar o backend, plano de testes de softwares e usabilidade, registro de testes, revisão da documentação, slides, organização e separação das tarefas.
 - Matheus : Responsável pelo desenvovimento frontend.
 - Luiz : Responsável pelo desenvovimento backend.
 - Saul : Responsável por auxiliar o backend e corrir documentação do Github.
@@ -173,7 +173,14 @@ Atualizado em: 29/06/2025
 | Humberto       | Melhorias front     | 22/06/2025     | 29/06/2025 | ✔️   | 29/06/2025      |
 | Humberto	     | Implementação Request  | 22/06/2025     | 29/06/2025 | ✔️   | 29/06/2025      |
 | Humberto	     | Funcionalidades dinâmicas tabelas  | 22/06/2025     | 29/06/2025 | ✔️   | 29/06/2025      |
-
+| Matheus	     | Funcionalidades dinâmicas configuração | 22/06/2025     | 29/06/2025 | ✔️   | 29/06/2025      |
+| Matheus	     | Implementação tela lançamento | 22/06/2025     | 29/06/2025 | ✔️   | 29/06/2025      |
+| Danilo	     | Plano de testes de Software | 22/06/2025     | 29/06/2025 | ✔️   | 29/06/2025      |
+| Danilo	     | Plano de testes de Usabilidade | 22/06/2025     | 29/06/2025 | ✔️   | 29/06/2025      |
+| Danilo	     | Revisão do Documento e Suporte Backend | 22/06/2025     | 29/06/2025 | ✔️   | 29/06/2025      |
+| Danilo	     | Registro de testes de Usabilidade e Software | 22/06/2025     | 29/06/2025 | ✔️   | 29/06/2025      |
+| Danilo	     | Slides | 22/06/2025     | 29/06/2025 | ✔️   | 29/06/2025      |
+| Danilo	     | Organização e separação das tarefas | 22/06/2025     | 29/06/2025 | ✔️   | 29/06/2025      |
 Legenda:
 - ✔️: terminado
 - 📝: em execução
