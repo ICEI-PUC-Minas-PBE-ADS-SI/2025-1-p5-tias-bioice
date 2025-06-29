@@ -7,6 +7,7 @@ import {InsumoRepository} from "../../repository/insumo/insumo.repository";
     imports: [],
     controllers: [InsumoController],
     providers: [InsumoService, InsumoRepository],
+    exports: [InsumoService]
 })
 export class InsumoModule {
 }

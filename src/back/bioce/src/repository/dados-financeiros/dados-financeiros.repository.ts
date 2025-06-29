@@ -2,6 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { SelectQueryBuilder } from 'typeorm';
 import {PaginacaoDto} from "../../shared/dto/paginacao.dto";
 import {DadosFinanceiros} from "../../model/dados-financeiros/dados-financeiros.entity";
+import {
+    InsumosProdutosDadosFinanceirosEntity
+} from "../../model/insumos-produtos-dados-financerios/insumos-produtos-dados-financerios.entity";
 
 @Injectable()
 export class DadosFinanceirosRepository {
@@ -55,5 +58,9 @@ export class DadosFinanceirosRepository {
 
     async deletarDadoFinanceiro(id: number) {
         return await DadosFinanceiros.delete(id);
+    }
+
+    async salvarRelacoesFinanceiras(relacosFinanceiras: InsumosProdutosDadosFinanceirosEntity[]): Promise<InsumosProdutosDadosFinanceirosEntity[]> {
+        return await InsumosProdutosDadosFinanceirosEntity.save(relacosFinanceiras);
     }
 }

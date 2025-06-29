@@ -13,6 +13,12 @@ import {
 
 @Entity({ name: 'insumo' })
 export class Insumo extends BaseEntity {
+  constructor(id?: number) {
+    super();
+    if (id) {
+      this.id = id;
+    }
+  }
   @PrimaryGeneratedColumn({ name: 'id' })
   id: number;
 

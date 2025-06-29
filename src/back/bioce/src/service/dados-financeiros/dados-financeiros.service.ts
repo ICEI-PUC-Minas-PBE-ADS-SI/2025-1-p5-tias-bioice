@@ -9,17 +9,28 @@ import {
 import { Usuario } from '../../model/usuario/usuario.entity';
 import {PaginacaoDto} from "../../shared/dto/paginacao.dto";
 import {DadosFinanceirosRepository} from "../../repository/dados-financeiros/dados-financeiros.repository";
-import {CriarDadosFinanceirosDto} from "../../model/dados-financeiros/dto/criar-dados-financeiros.dto";
+import {
+    CriarDadosFinanceirosDto,
+    ItemMovimentadoDto
+} from "../../model/dados-financeiros/dto/criar-dados-financeiros.dto";
 import {DadosFinanceiros} from "../../model/dados-financeiros/dados-financeiros.entity";
 import {
     InsumosProdutosDadosFinanceirosEntity
 } from "../../model/insumos-produtos-dados-financerios/insumos-produtos-dados-financerios.entity";
 import {MensagensDadosFinanceiros} from "../../model/dados-financeiros/utils/mensagens-dados-financeiros";
+import {ProdutoService} from "../produto/produto.service";
+import {InsumoService} from "../insumo/insumo.service";
+import {Produto} from "../../model/produto/produto.entity";
+import {Insumo} from "../../model/insumo/insumo.entity";
 
 
 @Injectable()
 export class DadosFinanceirosService {
-    constructor(private readonly dadoFinanceiroRepository: DadosFinanceirosRepository) {}
+    constructor(
+        private readonly dadoFinanceiroRepository: DadosFinanceirosRepository,
+        private readonly produtoService: ProdutoService,
+        private readonly insumoService: InsumoService,
+    ) {}
 
     async cadastrarDadoFinanceiro(dto: CriarDadosFinanceirosDto): Promise<DadosFinanceiros> {
         const usuario: Usuario | null = await Usuario.findOne({ where: { id: dto.usuarioId } });
@@ -35,13 +46,29 @@ export class DadosFinanceirosService {
         novoDadoFinanceiro.descricao = dto.descricao;
         novoDadoFinanceiro.usuario = usuario;
         novoDadoFinanceiro.dataOperacao = new Date();
+        const dadoFinanceiroSalvo: DadosFinanceiros = await this.dadoFinanceiroRepository.salvarDadoFinanceiro(novoDadoFinanceiro);
 
         await this.validarExistenciaDoInsumo(novoDadoFinanceiro, deveExistir);
 
-
-        const movimentacaoFinanceira: InsumosProdutosDadosFinanceirosEntity = new InsumosProdutosDadosFinanceirosEntity();
-
-        return await this.dadoFinanceiroRepository.salvarDadoFinanceiro(novoDadoFinanceiro);
+        const { itens } = dto;
+        const relacosFinanceiras: InsumosProdutosDadosFinanceirosEntity[] = itens.map((item: ItemMovimentadoDto): InsumosProdutosDadosFinanceirosEntity => {
+            const { produtoId, insumoId } = item;
+            if (produtoId) {
+                return {
+                    dadosFinanceiros: dadoFinanceiroSalvo,
+                    produto: new Produto(produtoId),
+                    quantitativo: item.quantitativo
+                } as InsumosProdutosDadosFinanceirosEntity;
+            }
+            return {
+                dadosFinanceiros: dadoFinanceiroSalvo,
+                insumo: new Insumo(item.produtoId),
+                quantitativo: item.quantitativo
+            } as InsumosProdutosDadosFinanceirosEntity;
+        })
+        await this.dadoFinanceiroRepository.salvarRelacoesFinanceiras(relacosFinanceiras);
+        dadoFinanceiroSalvo.relacoesFinanceiras = relacosFinanceiras;
+        return dadoFinanceiroSalvo;
     }
 
     async validarExistenciaDoInsumo(
