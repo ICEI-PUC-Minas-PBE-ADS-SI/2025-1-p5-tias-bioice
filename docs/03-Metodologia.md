@@ -154,17 +154,21 @@ Legenda:
 - ❌: não iniciado
 - 
 #### Sprint 5
+- Daniel : Responsável pelo desenvovimento backend.
+- Danilo : Responsável por auxiliar o backend.
+- Matheus : Responsável pelo desenvovimento frontend.
+- Luiz : Responsável pelo desenvovimento backend.
+- Saul : Responsável por auxiliar o backend e corrir documentação do Github.
+- Humberto: Responsável pelo desenvovimento frontend. 
+
+#### Sprint 5
+Atualizado em: 29/06/2025
 | Responsável   | Tarefa/Requisito | Iniciado em    | Prazo      | Status | Terminado em    |
 | :----         |    :----         |      :----:    | :----:     | :----: | :----:          |
 | Saul       | Correções do GitHub com base nos comentários das sprints     | 28/06/2025     | 29/06/2025 | ✔️   | 28/06/2025      |
-| Daniel       | Backend     | 28/06/2025     | 29/06/2025 | ✔️   | 28/06/2025      |
-| Daniel       | CRUD Insumos     | 28/06/2025     | 29/06/2025 | ✔️   | 28/06/2025      |
-| Daniel       | Correção de bugs     | 28/06/2025     | 29/06/2025 | ✔️   | 28/06/2025      |
-| Saul       | Correções do GitHub com base nos comentários das sprints     | 28/06/2025     | 29/06/2025 | ✔️   | 28/06/2025      |
-| Resp       | Taref   | 11/05/2025     | 08/06/2025 | ❌   | 07/06/2025      |
-| Resp       | Taref    | 11/05/2025     | 08/06/2025 | ❌    | 07/06/2025      |
-| Resp      | Taref | 02/06/2025     |02/06/2025 | ❌    | 02/06/2025      |
-| Resp      | Taref | 02/06/2025     | 08/06/2025 | ❌    | 08/06/2025      |
+| Saul       | Listagem de usuários paginada     | 28/06/2025     | 29/06/2025 | ✔️   | 28/06/2025      |
+| Daniel       | CRUD Insumos     | 28/06/2025     | 20/06/2025 | ✔️   | 29/06/2025      |
+| Daniel       | Correção de bugs     | 28/06/2025     | 27/06/2025 | ✔️   | 29/06/2025      |
 
 Legenda:
 - ✔️: terminado
