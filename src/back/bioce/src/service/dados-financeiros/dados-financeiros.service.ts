@@ -119,23 +119,40 @@ export class DadosFinanceirosService {
     }
 
     async editarDadoFinanceiro(id: number, dto: CriarDadosFinanceirosDto): Promise<DadosFinanceiros> {
-        const dadoFinanceiro = await this.dadoFinanceiroRepository.buscarDadoFinanceiroPorId(id);
-        if (!dadoFinanceiro) {
-            throw new NotFoundException({
-                status: HttpStatus.NOT_FOUND,
-                message: MensagensDadosFinanceiros.DADO_FINACEIRO_INEXISTENTE,
-            });
-        }
+        const deveExistir: boolean = false;
+        const  dadoFinanceiroAtualizado = await this.buscarDadoFinanceiroPorId(id);
+        dadoFinanceiroAtualizado.isEntrada = dto.isEntrada;
+        dadoFinanceiroAtualizado.valor = dto.valor;
+        dadoFinanceiroAtualizado.descricao = dto.descricao;
 
-        dadoFinanceiro.isEntrada = dto.isEntrada;
-        dadoFinanceiro.valor = dto.valor;
-        dadoFinanceiro.descricao = dto.descricao;
+        const dadoFinanceiroSalvo: DadosFinanceiros = await this.dadoFinanceiroRepository.salvarDadoFinanceiro(dadoFinanceiroAtualizado);
 
-        return await this.dadoFinanceiroRepository.salvarDadoFinanceiro(dadoFinanceiro);
+        // Verificar existência de todos os insumos aqui e implementar o mesmo para produto
+        // await this.validarExistenciaDoInsumo(novoDadoFinanceiro, deveExistir);
+
+        const { itens } = dto;
+        const relacoesFinanceiras: InsumosProdutosDadosFinanceirosEntity[] = itens.map((item: ItemMovimentadoDto): InsumosProdutosDadosFinanceirosEntity => {
+            const { produtoId, insumoId } = item;
+            if (produtoId) {
+                return {
+                    dadosFinanceiros: dadoFinanceiroSalvo,
+                    produto: {id: item.produtoId},
+                    quantitativo: item.quantitativo
+                } as InsumosProdutosDadosFinanceirosEntity;
+            }
+            return {
+                dadosFinanceiros: dadoFinanceiroSalvo,
+                insumo: {id: insumoId},
+                quantitativo: item.quantitativo
+            } as InsumosProdutosDadosFinanceirosEntity;
+        })
+        await this.dadoFinanceiroRepository.salvarRelacoesFinanceiras(relacoesFinanceiras);
+        return dadoFinanceiroSalvo;
     }
 
     async deletarDadoFinanceiro(id: number) {
-        const dadoFinanceiro = await this.dadoFinanceiroRepository.buscarDadoFinanceiroPorId(id);
+        const dadoFinanceiro: DadosFinanceiros | null = await this.dadoFinanceiroRepository.buscarDadoFinanceiroPorId(id);
+
         if (!dadoFinanceiro) {
             throw new NotFoundException({
                 status: HttpStatus.NOT_FOUND,
@@ -143,6 +160,9 @@ export class DadosFinanceirosService {
             });
         }
 
-        return await this.dadoFinanceiroRepository.deletarDadoFinanceiro(id);
+        await this.dadoFinanceiroRepository.removerRelacoesFinanceirasPorDadoFinanceiro(id);
+
+        return  await this.dadoFinanceiroRepository.deletarDadoFinanceiro(id);;
     }
+
 }

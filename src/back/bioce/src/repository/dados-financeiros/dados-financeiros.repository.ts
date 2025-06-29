@@ -1,10 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { SelectQueryBuilder } from 'typeorm';
-import {PaginacaoDto} from "../../shared/dto/paginacao.dto";
-import {DadosFinanceiros} from "../../model/dados-financeiros/dados-financeiros.entity";
-import {
-    InsumosProdutosDadosFinanceirosEntity
-} from "../../model/insumos-produtos-dados-financerios/insumos-produtos-dados-financerios.entity";
+import { PaginacaoDto } from '../../shared/dto/paginacao.dto';
+import { DadosFinanceiros } from '../../model/dados-financeiros/dados-financeiros.entity';
+import { InsumosProdutosDadosFinanceirosEntity } from '../../model/insumos-produtos-dados-financerios/insumos-produtos-dados-financerios.entity';
 
 @Injectable()
 export class DadosFinanceirosRepository {
@@ -13,11 +11,11 @@ export class DadosFinanceirosRepository {
     }
 
     async buscarDadoFinanceiroPorId(id: number) {
-        return await DadosFinanceiros.createQueryBuilder("dadosFinanceiros")
-            .where("dadosFinanceiros.id = :id", {id})
-            .innerJoin("dadosFinanceiros.relacoesFinanceiras", "relacoesFinanceiras")
-            .leftJoinAndSelect("relacoesFinanceiras.produto", "produto")
-            .leftJoinAndSelect("relacoesFinanceiras.insumo", "insumo")
+        return await DadosFinanceiros.createQueryBuilder('dadosFinanceiros')
+            .where('dadosFinanceiros.id = :id', { id })
+            .innerJoin('dadosFinanceiros.relacoesFinanceiras', 'relacoesFinanceiras')
+            .leftJoinAndSelect('relacoesFinanceiras.produto', 'produto')
+            .leftJoinAndSelect('relacoesFinanceiras.insumo', 'insumo')
             .getOne();
     }
 
@@ -36,31 +34,42 @@ export class DadosFinanceirosRepository {
     ): Promise<boolean> {
         const { id, isEntrada, valor, descricao } = dadoFinanceiro;
 
-        const query: SelectQueryBuilder<DadosFinanceiros> = DadosFinanceiros.createQueryBuilder('dadoFinanceiro')
+        const query: SelectQueryBuilder<DadosFinanceiros> = DadosFinanceiros.createQueryBuilder('dadoFinanceiro');
 
-        if (isEntrada) {
-            query.andWhere('dadoFinanceiro. = :isEntrada', { isEntrada });
+        if (isEntrada !== undefined) {
+            query.andWhere('dadoFinanceiro.isEntrada = :isEntrada', { isEntrada });
         }
-        if (valor) {
-            query.andWhere('dadoFinanceiro. = :valor', { valor });
+
+        if (valor !== undefined) {
+            query.andWhere('dadoFinanceiro.valor = :valor', { valor });
         }
+
         if (descricao) {
-            query.andWhere('dadoFinanceiro. = :descricao', { descricao });
+            query.andWhere('dadoFinanceiro.descricao = :descricao', { descricao });
         }
-        if (descricao) {
-            query.andWhere('dadoFinanceiro. = :descricao', { descricao });
-        }
+
         if (id) {
             query.andWhere('dadoFinanceiro.id != :id', { id });
         }
-        return query.getExists();
+
+        return await query.getExists();
     }
 
     async deletarDadoFinanceiro(id: number) {
         return await DadosFinanceiros.delete(id);
     }
 
-    async salvarRelacoesFinanceiras(relacosFinanceiras: InsumosProdutosDadosFinanceirosEntity[]): Promise<InsumosProdutosDadosFinanceirosEntity[]> {
-        return await InsumosProdutosDadosFinanceirosEntity.save(relacosFinanceiras);
+    async salvarRelacoesFinanceiras(
+        relacoesFinanceiras: InsumosProdutosDadosFinanceirosEntity[],
+    ): Promise<InsumosProdutosDadosFinanceirosEntity[]> {
+        return await InsumosProdutosDadosFinanceirosEntity.save(relacoesFinanceiras);
+    }
+
+    async removerRelacoesFinanceirasPorDadoFinanceiro(
+        dadoFinanceiroId: number,
+    ): Promise<void> {
+        await InsumosProdutosDadosFinanceirosEntity.delete({
+            dadosFinanceiros: { id: dadoFinanceiroId },
+        });
     }
 }
