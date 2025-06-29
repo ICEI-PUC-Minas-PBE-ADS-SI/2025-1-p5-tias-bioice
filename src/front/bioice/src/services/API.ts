@@ -101,4 +101,13 @@ export default class API {
 			nivelPermissao: data.nivelPermissao,
 		})
 	}
+	//COFIGURAÇÃO
+	getCurrentUser() {
+		return this.genericGET("/usuario/me"); 
+	}
+
+	updateUser(data: { nome: string, sobrenome: string, email: string, telefone: string }) {
+		return this.genericPUT("/usuario/me", data); 
+	}
+
 }
