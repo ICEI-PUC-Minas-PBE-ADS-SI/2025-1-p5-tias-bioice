@@ -22,25 +22,24 @@ export class DadosFinanceirosService {
     constructor(private readonly dadoFinanceiroRepository: DadosFinanceirosRepository) {}
 
     async cadastrarDadoFinanceiro(dto: CriarDadosFinanceirosDto): Promise<DadosFinanceiros> {
-        const usuarioId = await Usuario.findOne({ where: { id: dto.usuarioId } });
-        if (!usuarioId) {
+        const usuario: Usuario | null = await Usuario.findOne({ where: { id: dto.usuarioId } });
+        if (!usuario) {
             throw new BadRequestException('Usuário não encontrado!');
         }
 
         const deveExistir: boolean = false;
 
-        const novoDadoFinanceiro = new DadosFinanceiros();
+        const novoDadoFinanceiro: DadosFinanceiros = new DadosFinanceiros();
         novoDadoFinanceiro.isEntrada = dto.isEntrada;
         novoDadoFinanceiro.valor = dto.valor;
         novoDadoFinanceiro.descricao = dto.descricao;
-        novoDadoFinanceiro.usuario = usuarioId;
-        novoDadoFinanceiro.dataOperacao = Date.now();
-
-        const movimentacaoFinanceira = new InsumosProdutosDadosFinanceirosEntity();
-        movimentacaoFinanceira.quantitativo = dto.quantitativo;
-
+        novoDadoFinanceiro.usuario = usuario;
+        novoDadoFinanceiro.dataOperacao = new Date();
 
         await this.validarExistenciaDoInsumo(novoDadoFinanceiro, deveExistir);
+
+
+        const movimentacaoFinanceira: InsumosProdutosDadosFinanceirosEntity = new InsumosProdutosDadosFinanceirosEntity();
 
         return await this.dadoFinanceiroRepository.salvarDadoFinanceiro(novoDadoFinanceiro);
     }
@@ -67,11 +66,11 @@ export class DadosFinanceirosService {
 
     async exibirDadosFinanceirosPaginado(paginacao: PaginacaoDto) {
         const { pagina, limite } = paginacao;
-        const [produtos, total] =
+        const [dadosFinanceiros, total] =
             await this.dadoFinanceiroRepository.paginacaoDadosFinanceiros(paginacao);
 
         return {
-            data: produtos,
+            data: dadosFinanceiros,
             total,
             pagina,
             ultimaPagina: Math.ceil(total / limite),
