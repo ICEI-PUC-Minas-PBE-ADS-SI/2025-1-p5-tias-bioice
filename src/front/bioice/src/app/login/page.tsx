@@ -20,11 +20,10 @@ export default function Login() {
 
   const [form, setForm] = useState({
     email: "",
-    senha: ""
+    password: ""
   })
 
   const errors: any = {
-    401: "Credenciais inválidas",
     404: "Usuário não encontrado"
   }
 
@@ -34,7 +33,6 @@ export default function Login() {
     context.api.login(form).then(r => {
       console.log(r)
       if (r.status == 201) {
-        // context.api.setToken()
         context.setUser({
           id: r.data.id,
           email: r.data.email,
@@ -42,7 +40,7 @@ export default function Login() {
         })
 
         setTimeout(() => router.push("/app/dashboard"), 1000)
-      } else throw errors[r.status] ?? "Não foi possível se conectar."
+      } else throw errors[r.statusCode] ?? "Não foi possível se conectar."
     }).catch(err => setTimeout(() => {
       setMsg(err)
       setOpen(true)
@@ -93,9 +91,9 @@ export default function Login() {
             <InputText
               id="password"
               type="password"
-              name="senha"
+              name="password"
               placeholder="Senha"
-              value={form.senha}
+              value={form.password}
               onChange={onChange}
               onKeyDown={e => {
                 if (e.key === "Enter") {
