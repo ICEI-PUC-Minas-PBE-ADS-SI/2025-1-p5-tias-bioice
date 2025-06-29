@@ -22,6 +22,7 @@ import {ProdutoService} from "../produto/produto.service";
 import {InsumoService} from "../insumo/insumo.service";
 import {Produto} from "../../model/produto/produto.entity";
 import {Insumo} from "../../model/insumo/insumo.entity";
+import {populateReverseDependencyGraph} from "ts-loader/dist/utils";
 
 
 @Injectable()
@@ -48,10 +49,11 @@ export class DadosFinanceirosService {
         novoDadoFinanceiro.dataOperacao = new Date();
         const dadoFinanceiroSalvo: DadosFinanceiros = await this.dadoFinanceiroRepository.salvarDadoFinanceiro(novoDadoFinanceiro);
 
-        await this.validarExistenciaDoInsumo(novoDadoFinanceiro, deveExistir);
+        // Verificar existência de todos os insumos aqui e implementar o mesmo para produto
+        // await this.validarExistenciaDoInsumo(novoDadoFinanceiro, deveExistir);
 
         const { itens } = dto;
-        const relacosFinanceiras: InsumosProdutosDadosFinanceirosEntity[] = itens.map((item: ItemMovimentadoDto): InsumosProdutosDadosFinanceirosEntity => {
+        const relacoesFinanceiras: InsumosProdutosDadosFinanceirosEntity[] = itens.map((item: ItemMovimentadoDto): InsumosProdutosDadosFinanceirosEntity => {
             const { produtoId, insumoId } = item;
             if (produtoId) {
                 return {
@@ -62,12 +64,11 @@ export class DadosFinanceirosService {
             }
             return {
                 dadosFinanceiros: dadoFinanceiroSalvo,
-                insumo: new Insumo(item.produtoId),
+                insumo: new Insumo(insumoId),
                 quantitativo: item.quantitativo
             } as InsumosProdutosDadosFinanceirosEntity;
         })
-        await this.dadoFinanceiroRepository.salvarRelacoesFinanceiras(relacosFinanceiras);
-        dadoFinanceiroSalvo.relacoesFinanceiras = relacosFinanceiras;
+        await this.dadoFinanceiroRepository.salvarRelacoesFinanceiras(relacoesFinanceiras);
         return dadoFinanceiroSalvo;
     }
 

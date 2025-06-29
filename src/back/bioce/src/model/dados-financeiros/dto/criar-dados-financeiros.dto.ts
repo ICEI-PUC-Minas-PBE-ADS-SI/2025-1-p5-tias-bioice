@@ -41,7 +41,7 @@ export class CriarDadosFinanceirosDto {
     @IsNumber()
     usuarioId: number;
 
-    @ValidateNested()
+    // @ValidateNested()
     @IsArray()
     itens: ItemMovimentadoDto[]
 }
