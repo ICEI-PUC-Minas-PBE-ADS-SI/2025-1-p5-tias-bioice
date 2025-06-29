@@ -2,6 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { Usuario } from '../../model/usuario/usuario.entity';
 import { DataSource, SelectQueryBuilder } from 'typeorm';
 import {FindOptionsWhere} from "typeorm/find-options/FindOptionsWhere";
+import {RespostaPaginada} from "../../shared/interfaces/resposta-paginada.interface";
+import {skip} from "rxjs";
+import {PaginationUtils} from "../../shared/classes/pagination-utils.class";
 
 @Injectable()
 export class UsuarioRepository {
@@ -52,5 +55,29 @@ export class UsuarioRepository {
     return await Usuario.findOne({
       where: whereClause
     });
+  }
+
+  async buscarUsuariosPaginado(
+      pagina: number,
+      limite: number
+  ): Promise<RespostaPaginada<Usuario>> {
+    const usuarios: Usuario[] = await Usuario.find({
+      where: { isExcluido: false },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        nivelPermissao: true,
+      },
+      skip: PaginationUtils.CalcularSkip(pagina, limite),
+      take: limite,
+    });
+    return {
+      pageNumber: pagina,
+      pageSize: limite,
+      totalCount: await Usuario.countBy({ isExcluido: false }),
+      countOfPage: usuarios.length,
+      data: usuarios
+    };
   }
 }

@@ -15,6 +15,8 @@ import { Count } from '../../shared/interfaces/count.interface';
 import {LoginDTO} from "../../model/usuario/dto/login.dto";
 import {AccessToken} from "../../model/auth/interfaces/access-token.interface";
 import {AuthService} from "../auth/auth.service";
+import {PaginacaoDto} from "../../shared/dto/paginacao.dto";
+import {RespostaPaginada} from "../../shared/interfaces/resposta-paginada.interface";
 
 @Injectable()
 export class UsuarioService {
@@ -136,5 +138,13 @@ export class UsuarioService {
       });
     }
     return await this.authService.login(usuario, senha);
+  }
+
+  async buscarUsuariosPaginado(paginacao: PaginacaoDto): Promise<RespostaPaginada<Usuario>> {
+    const { pagina, limite } = paginacao;
+    return await this.usuarioRepository.buscarUsuariosPaginado(
+        pagina,
+        limite
+    );
   }
 }
