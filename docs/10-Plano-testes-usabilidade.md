@@ -1,41 +1,53 @@
 # Plano de testes de usabilidade
 
-<span style="color:red">Pré-requisitos: <a href="05-Projeto-interface.md"> Projeto de interface</a></span>, <a href="08-Plano-testes-software.md"> Plano de testes de software</a>
+O objetivo do plano de testes de usabilidade é obter informações sobre a experiência dos usuários ao interagirem com a aplicação de gestão da sorveteria, verificando a facilidade de uso, a clareza das funcionalidades e a eficiência na execução das tarefas mais comuns.
 
-O teste de usabilidade permite avaliar a qualidade da interface com o usuário da aplicação interativa. Um plano de teste de usabilidade deverá conter: o detalhamento dos objetivos (ou cenários) em função dos requisitos levantados/implementados, os critérios que serão utilizados para a seleção dos participantes, os procedimentos a serem adotados pelos condutores de teste (por exemplo: os testes serão presenciais ou remotos? O método será observação direta, medição ou avaliação?), os dados a serem coletados (quantidade de cliques, número de erros, tempo, etc.), a ordem de execução das tarefas e das etapas da sessão de teste, os recursos demandados, as métricas coletadas, entre outros.
+Para isso, foram definidos quatro cenários de teste, baseados nas histórias de usuários e requisitos implementados no sistema. Esses cenários representam tarefas essenciais para o bom uso da aplicação.
 
-Para cada voluntário do teste, é fundamental coletar e apresentar todos os dados/métricas previamente definidos. No entanto, atendendo à LGPD (Lei Geral de Proteção de Dados), nenhum dado sensível que permita identificar o voluntário deverá ser apresentado.
+# Participantes
+Foram convidados quatro voluntários que representam perfis de uso definidos nas histórias de usuário do projeto:
 
-> Exemplo:
+- Gestor da sorveteria
+- Funcionários
 
-O objetivo do plano de testes de usabilidade é obter informações quanto à expectativa dos usuários em relação à funcionalidade da aplicação de forma geral.
+Os testes foram realizados presencialmente, com observação direta, cronometragem do tempo e coleta de dados quantitativos e qualitativos durante cada sessão.
 
-Para tanto, foram elaborados quatro cenários, cada um baseado na definição apresentada sobre as histórias dos usuários, definido na etapa das especificações do projeto.
+# Procedimentos
 
-Foram convidadas quatro pessoas que os perfis se encaixassem nas definições das histórias apresentadas na documentação, visando averiguar os seguintes indicadores:
+* Cada participante recebeu as instruções por escrito para execução de cada cenário, sem auxílio técnico.
+* Foi realizada a observação direta, registrando:
+      * Número de cliques
+      * Número de erros cometidos
+      * Tempo de execução (em segundos)
+      * Taxa de sucesso (se o participante conseguiu ou não completar a tarefa)
+      * Satisfação subjetiva, com avaliação de 1 a 5 (Péssimo a Ótimo)
 
-Taxa de sucesso: responde se o usuário conseguiu ou não executar a tarefa proposta;
+Os dados foram anotados em uma planilha individual por participante e por cenário, além também de nenhuma informação pessoal identificável ser coletada, respeitando a LGPD.
 
-Satisfação subjetiva: responde como o usuário avalia o sistema com relação à execução da tarefa proposta, conforme a seguinte escala:
+# Recursos Utilizados
 
-1. Péssimo; 
-2. Ruim; 
-3. Regular; 
-4. Bom; 
-5. Ótimo.
+Os recursos utilizados foram:
+* Computador com navegador atualizado
+* Cronômetro digital
+* Planilha de coleta de dados
+* Ambiente de teste com versão funcional da aplicação
 
-Tempo para conclusão da tarefa: em segundos, e em comparação com o tempo utilizado quando um especialista (um desenvolvedor) realiza a mesma tarefa.
-
-Objetivando respeitar as diretrizes da Lei Geral de Proteção de Dados, as informações pessoais dos usuários que participaram do teste não foram coletadas, tendo em vista a ausência de Termo de Consentimento Livre e Esclarecido.
-
-> Apresente os cenários de testes utilizados na realização dos testes de usabilidade da sua aplicação. Escolha cenários de testes que demonstrem as principais histórias de usuário sendo realizadas. Neste tópico, você deve detalhar quais funcionalidades foram avaliadas, o grupo de usuários que foi escolhido para participar do teste e as ferramentas utilizadas.
+# Indicadores Avaliados
+* Taxa de sucesso
+* Tempo médio de execução por tarefa
+* Número de cliques por tarefa
+* Número de erros cometidos
+* Satisfação subjetiva
 
 ## Cenários de teste de usabilidade
 
-| Nº do cenário | Descrição do cenário |
-|---------------|----------------------|
-| 1             | Você é uma pessoa que deseja comprar um iPhone. Encontre no site um iPhone e veja detalhes de localização e contato da loja que o está anunciando. |
-| 2             | Você é uma pessoa que deseja comprar um smartphone até R$ 2.000,00. Encontre no site smartphones nessa faixa de preço. |
+| Nº do cenário | Descrição do cenário                                                                                                                    |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| 1             | Você é um funcionário da sorveteria. Cadastre um novo insumo no sistema, preenchendo todos os dados obrigatórios.                       |
+| 2             | Você é o gestor da sorveteria. Acesse o relatório de receitas e despesas do último mês e identifique a maior categoria de gasto.        |
+| 3             | Você é um funcionário. Registre a saída de um insumo do estoque e verifique se o sistema atualizou a quantidade corretamente.           |
+| 4             | Você é o gestor da sorveteria. Cadastre uma nova prática adotada pela empresa e verifique se ela aparece no relatório. |
+
 
 
 > **Links úteis**:
