@@ -173,7 +173,8 @@ Atualizado em: 29/06/2025
 | Humberto       | Melhorias front     | 22/06/2025     | 29/06/2025 | ✔️   | 29/06/2025      |
 | Humberto	     | Implementação Request  | 22/06/2025     | 29/06/2025 | ✔️   | 29/06/2025      |
 | Humberto	     | Funcionalidades dinâmicas tabelas  | 22/06/2025     | 29/06/2025 | ✔️   | 29/06/2025      |
-
+| Matheus	     | Funcionalidades dinâmicas configuração | 22/06/2025     | 29/06/2025 | ✔️   | 29/06/2025      |
+| Matheus	     | Implementação tela lançamento | 22/06/2025     | 29/06/2025 | ✔️   | 29/06/2025      |
 Legenda:
 - ✔️: terminado
 - 📝: em execução
