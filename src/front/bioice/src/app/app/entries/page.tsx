@@ -34,23 +34,23 @@ export default function Lancamentos() {
 	}
 
 	useEffect(() => {
-		setLoading(true)
-		context.api.getEntries({ pagina: 1, limite: 50, filtrarPorEntradas: true, filtrarPorDespesas: false }).then(r => {
-			if (r.status == 200)
-				setReceipts(r.data.data)
-		}).finally(() => setLoading(false))
-		context.api.getEntries({ pagina: 1, limite: 50, filtrarPorEntradas: false, filtrarPorDespesas: true }).then(r => {
-			if (r.status == 200)
-				setExpenses(r.data.data)
-		}).finally(() => setLoading(false))
-		context.api.getSupplies({ pagina: 1, limite: 50 }).then(r => {
-			if (r.status == 200)
-				setInputs(r.data.data)
-		}).finally(() => setLoading(false))
-	}, [])
+		if (loading) {
+			context.api.getEntries({ pagina: 1, limite: 50, filtrarPorEntradas: true, filtrarPorDespesas: false }).then(r => {
+				if (r.status == 200)
+					setReceipts(r.data.data)
+			}).finally(() => setLoading(false))
+			context.api.getEntries({ pagina: 1, limite: 50, filtrarPorEntradas: false, filtrarPorDespesas: true }).then(r => {
+				if (r.status == 200)
+					setExpenses(r.data.data)
+			}).finally(() => setLoading(false))
+			context.api.getSupplies({ pagina: 1, limite: 50 }).then(r => {
+				if (r.status == 200)
+					setInputs(r.data.data)
+			}).finally(() => setLoading(false))
+		}
+	}, [loading])
 
 	useEffect(() => {
-		setLoading(true)
 		switch (activeTab) {
 			case "Entradas":
 				context.api.getEntries({ pagina: 1, limite: 50, filtrarPorEntradas: true, filtrarPorDespesas: false }).then(r => {
@@ -198,8 +198,10 @@ export default function Lancamentos() {
 						if (r.status == 201) {
 							if (callback) callback()
 							setAdd(false)
+							setLoading(true)
 						}
 					}).catch(err => console.error(err))
+						.finally(() => callback && callback())
 				} else {
 					const newEntry: Insumo = {
 						id: receipts.length + expenses.length + inputs.length + 1,
@@ -355,10 +357,13 @@ function ModalAddEntry({ onClose, onFinish, activeTab }: ModalAddEntry) {
 					</div>
 					<div className="flex justify-end gap-3 pt-4">
 						<Button loading={loading} variant="border" onClick={onClose}>Cancelar</Button>
-						<Button loading={loading} onClick={() => onFinish(form, () => setLoading(false))}>Salvar</Button>
+						<Button loading={loading} onClick={() => {
+							setLoading(true)
+							onFinish(form, () => setLoading(false))
+						}}>Salvar</Button>
 					</div>
 				</form>
-			</div>
-		</div>
+			</div >
+		</div >
 	)
 }
