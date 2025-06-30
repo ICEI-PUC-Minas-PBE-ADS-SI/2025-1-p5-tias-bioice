@@ -19,15 +19,10 @@ Sprint 5 - [BioIce5.pdf](https://github.com/user-attachments/files/20971021/BioI
 
 ## Vídeo
 
-O grupo também deverá gravar um vídeo de até cinco minutos apresentando a solução. O vídeo deve incluir uma demonstração da aplicação hospedada, mostrando seu funcionamento.
+### Vídeo exibindo funcionalidades
 
-Podem utilizar quaisquer recursos na produção do vídeo, mas certifiquem-se de destacar as funcionalidades da aplicação.
+https://jam.dev/c/b6f3b23a-6693-4bc3-9761-780b80354327
 
-A seguir, estão as especificações técnicas que devem ser seguidas na criação do vídeo:
+### Vídeo pitch
 
-> - tamanho do arquivo limitado a 90Mb
-> - taxa de FPS limitada a 30 quadros por segundo
-> - resolução HD (720p) ou Full HD (1080p)
-> - formato mp4.
-
-
+https://drive.google.com/file/d/15PENw6lPVxLB_OocZlppXZtgrMueDGh3/view?usp=sharing
