@@ -26,7 +26,7 @@ export default function RowFuncionario({ row, onEdit, onDelete }: Props) {
         <IconButton onClick={() => onEdit(row.id)}>
           <Edit />
         </IconButton>
-        <IconButton onClick={() => onDelete(row.id)} color="red">
+        <IconButton onClick={() => onDelete(row.id)} color="error">
           <Trash />
         </IconButton>
       </td>
@@ -40,12 +40,15 @@ interface IconButton {
   onClick?: MouseEventHandler<HTMLButtonElement>
 }
 
-function IconButton(props: IconButton) {
-
+export function IconButton(props: IconButton) {
   function colorFilter(color: string | undefined) {
     switch (color) {
-      case "red":
-        return " text-red-500"
+      case "primary":
+        return " text-red-500 hover:bg-[#c7e9ec] text-[#37b4c3]" 
+      case "secondary":
+        return " text-red-500 hover:bg-[#bce9d4] text-[#37c382]" 
+      case "error":
+        return " text-red-500 hover:bg-[#ebc2c9] text-[#c3374e]" 
       default:
         return ""
     }
@@ -53,7 +56,7 @@ function IconButton(props: IconButton) {
 
   return <button
     onClick={props.onClick}
-    className={"cursor-pointer rounded-full p-1" + colorFilter(props.color)}
+    className={"cursor-pointer border-transparent rounded-full p-1" + colorFilter(props.color)}
   >
     {props.children}
   </button>

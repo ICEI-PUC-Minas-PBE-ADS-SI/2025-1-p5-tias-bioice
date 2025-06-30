@@ -8,6 +8,9 @@ import MoneyInput from "@/components/basic/MoneyInput"
 import Spinner from "@/components/basic/Spinner"
 import { Insumo, Lançamento } from "@/components/Sheets/Entry"
 import { useAppContext } from "@/contexts/AppContext"
+import Collapse from "@/components/basic/Collapse"
+import { CircleX } from "lucide-react"
+import { IconButton } from "@/components/basic/RowFuncionario"
 
 type Tabs = "Entradas" | "Saídas" | "Insumos" | "Relatórios"
 
@@ -32,23 +35,39 @@ export default function Lancamentos() {
 
 	useEffect(() => {
 		setLoading(true)
+		context.api.getEntries({ pagina: 1, limite: 50, filtrarPorEntradas: true, filtrarPorDespesas: false }).then(r => {
+			if (r.status == 200)
+				setReceipts(r.data.data)
+		}).finally(() => setLoading(false))
+		context.api.getEntries({ pagina: 1, limite: 50, filtrarPorEntradas: false, filtrarPorDespesas: true }).then(r => {
+			if (r.status == 200)
+				setExpenses(r.data.data)
+		}).finally(() => setLoading(false))
+		context.api.getSupplies({ pagina: 1, limite: 50 }).then(r => {
+			if (r.status == 200)
+				setInputs(r.data.data)
+		}).finally(() => setLoading(false))
+	}, [])
+
+	useEffect(() => {
+		setLoading(true)
 		switch (activeTab) {
 			case "Entradas":
-				context.api.getEntries({ pagina: 1, limite: 50, entradas: true }).then(r => {
+				context.api.getEntries({ pagina: 1, limite: 50, filtrarPorEntradas: true, filtrarPorDespesas: false }).then(r => {
 					if (r.status == 200)
 						setReceipts(r.data.data)
 				}).finally(() => setLoading(false))
 
 				break
 			case "Saídas":
-				context.api.getEntries({ pagina: 1, limite: 50, entradas: false }).then(r => {
+				context.api.getEntries({ pagina: 1, limite: 50, filtrarPorEntradas: false, filtrarPorDespesas: true }).then(r => {
 					if (r.status == 200)
 						setExpenses(r.data.data)
 				}).finally(() => setLoading(false))
 
 				break
 			case "Insumos":
-				context.api.getSupplies({ pagina: 1, limite: 50, entradas: false }).then(r => {
+				context.api.getSupplies({ pagina: 1, limite: 50 }).then(r => {
 					if (r.status == 200)
 						setInputs(r.data.data)
 				}).finally(() => setLoading(false))
@@ -108,14 +127,9 @@ export default function Lancamentos() {
 								</tr>}
 						</thead>
 						<tbody>
-							{/* <Collapse in={activeTab == "Entradas"}> */}
 							{activeTab == "Entradas" && receipts.map(row => <Lançamento key={row.id} data={row} />)}
 							{activeTab == "Saídas" && expenses.map(row => <Lançamento key={row.id} data={row} />)}
 							{activeTab == "Insumos" && inputs.map(row => <Insumo key={row.id} data={row} />)}
-							{/* </Collapse> */}
-							{/* <Collapse in={activeTab == "Saídas"}>
-									{expenses.map(row => <RowLancamento key={row.id} row={row} />)}
-								</Collapse> */}
 						</tbody>
 					</table>
 				</div>
@@ -125,14 +139,14 @@ export default function Lancamentos() {
 		{activeTab === "Relatórios" && (
 			<div className="bg-white p-6 rounded-2xl shadow-md">
 				<h2 className="text-2xl font-bold text-gray-800 mb-4">Relatório Financeiro</h2>
-				<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-					<div className="bg-green-50 p-4 rounded-xl shadow-sm">
+				<div className="flex gap-4">
+					<div className="bg-green-50 p-4 w-1/2 rounded-xl shadow-sm">
 						<h3 className="text-sm text-green-800 font-medium">Total de Entradas</h3>
 						<p className="text-2xl font-semibold text-green-700">
 							R$ {receipts.reduce((sum, r) => sum + r.valor, 0).toFixed(2)}
 						</p>
 					</div>
-					<div className="bg-red-50 p-4 rounded-xl shadow-sm">
+					<div className="bg-red-50 p-4 w-1/2 rounded-xl shadow-sm">
 						<h3 className="text-sm text-red-800 font-medium">Total de Saídas</h3>
 						<p className="text-2xl font-semibold text-red-600">
 							R$ {expenses.reduce((sum, r) => sum + r.valor, 0).toFixed(2)}
@@ -147,9 +161,9 @@ export default function Lancamentos() {
 					</p>
 				</div>
 
-				<div className="bg-white p-4 rounded-xl shadow-sm">
+				{/* <div className="bg-white p-4 rounded-xl shadow-sm">
 					<h3 className="text-lg font-medium text-gray-700 mb-2">Gráfico por Dia</h3>
-					{/* <ResponsiveContainer width="100%" height={300}>
+					<ResponsiveContainer width="100%" height={300}>
 						<BarChart data={chartData}>
 							<CartesianGrid strokeDasharray="3 3" />
 							<XAxis dataKey="name" />
@@ -159,48 +173,48 @@ export default function Lancamentos() {
 							<Bar dataKey="expense" fill="#FF7373" name="Saídas" />
 							<Bar dataKey="input" fill="#FFBB28" name="Insumos" />
 						</BarChart>
-					</ResponsiveContainer> */}
-				</div>
+					</ResponsiveContainer>
+				</div> */}
 			</div>
 		)}
 
-		{/* MODAL DE ADIÇÃO */}
-		{add && (
-			<ModalAddEntry
-				activeTab={activeTab}
-				onClose={() => setAdd(false)}
-				onFinish={(items: AddEntry) => {
-					if (items.type != "input") {
-						const newEntry: Lançamento = {
-							id: receipts.length + expenses.length + inputs.length + 1,
-							usuario: {
-								username: context.user.name,
-								nivelPermissao: "admin"
-							},
-							dataOperacao: new Date().toISOString(),
-							descricao: items.description,
-							valor: items.value,
-						}
+		{add && <ModalAddEntry
+			activeTab={activeTab}
+			onClose={() => setAdd(false)}
+			onFinish={(items: AddEntry, callback?: () => void) => {
+				if (items.type != "input") {
+					console.log(context.user)
+					console.log(context.user.id)
 
-						if (items.type === "receipt") setReceipts(prev => [...prev, newEntry])
-						else setExpenses(prev => [...prev, newEntry])
-					} else {
-						const newEntry: Insumo = {
-							id: receipts.length + expenses.length + inputs.length + 1,
-							dataRegistro: new Date().toISOString(),
-							dataValidade: new Date("+30 days").toISOString(),
-							descricao: items.description,
-							lote: "LOTE",
-							nome: ""
-						}
-
-						setInputs(prev => [...prev, newEntry])
+					const newEntry: any = {
+						isEntrada: items.type == "receipt",
+						valor: items.value,
+						descricao: items.description,
+						usuarioId: context.user.id,
+						itens: items.itens
 					}
 
-					setAdd(false)
-				}}
-			/>
-		)}
+					context.api.addEntry(newEntry).then(r => {
+						if (r.status == 201) {
+							if (callback) callback()
+							setAdd(false)
+						}
+					}).catch(err => console.error(err))
+				} else {
+					const newEntry: Insumo = {
+						id: receipts.length + expenses.length + inputs.length + 1,
+						dataRegistro: new Date().toISOString(),
+						dataValidade: new Date("+30 days").toISOString(),
+						descricao: items.description,
+						lote: "LOTE",
+						nome: ""
+					}
+
+					setInputs(prev => [...prev, newEntry])
+				}
+
+			}}
+		/>}
 	</Card>
 }
 
@@ -208,21 +222,38 @@ type AddEntry = {
 	type: "receipt" | "expense" | "input"
 	description: string
 	value: number
-	extra: string
+	itens: Item[]
 }
 
 interface ModalAddEntry {
 	onClose: () => void
-	onFinish: (form: AddEntry) => void
+	onFinish: (form: AddEntry, calback?: () => void) => void
 	activeTab: Tabs
 }
 
+
+export interface Item {
+	quantitativo: number
+	produtoId: number
+	insumoId: number
+	name?: string
+}
+
 function ModalAddEntry({ onClose, onFinish, activeTab }: ModalAddEntry) {
+	const [itens, setItens] = useState<Item[]>([])
+	const [show, setShow] = useState(false)
+	const [loading, setLoading] = useState(false)
+	const [newItem, setNewItem] = useState({
+		quantitativo: 0,
+		produtoId: 1,
+		insumoId: 1,
+		name: ""
+	})
 	const [form, setForm] = useState<AddEntry>({
-		type: "receipt",
+		type: activeTab == "Entradas" ? "receipt" : "expense",
 		description: "",
 		value: 0,
-		extra: ""
+		itens: []
 	})
 
 	const handleChange = (e?: ChangeEvent<HTMLSelectElement | HTMLTextAreaElement | HTMLInputElement>) => {
@@ -249,13 +280,17 @@ function ModalAddEntry({ onClose, onFinish, activeTab }: ModalAddEntry) {
 		}
 	}
 
+	useEffect(() => {
+		if (itens) setForm(prev => ({ ...prev, itens: itens }))
+	}, [itens])
+
 	return (
 		<div className="fixed inset-0 flex items-center justify-center z-50 bg-black/40 backdrop-blur-sm">
 			<div className="bg-white rounded-xl w-full max-w-md p-6 shadow-2xl animate-fade-in">
 				<h2 className="text-2xl font-semibold text-gray-800 mb-6">
 					{filtrarTab()}
 				</h2>
-				<form className="space-y-5" onSubmit={e => e.preventDefault()}>
+				<form className="space-y-3" onSubmit={e => e.preventDefault()}>
 					<div>
 						<label className="block text-sm font-medium text-gray-700 mb-1">Descrição</label>
 						<textarea
@@ -274,20 +309,53 @@ function ModalAddEntry({ onClose, onFinish, activeTab }: ModalAddEntry) {
 							onChange={handleChange}
 						/>
 					</div>
-					<div>
-						<label className="block text-sm font-medium text-gray-700 mb-1">Extra</label>
-						<input
-							name="extra"
-							type="text"
-							value={form.extra}
-							onChange={handleChange}
-							placeholder="Informação adicional"
-							className="w-full border border-gray-300 rounded-lg px-3 py-2 text-gray-800 focus:ring-2 focus:ring-green-400 focus:outline-none"
-						/>
+					<div className="text-gray-700">
+						<label className="block text-sm font-medium mb-1">Itens</label>
+						<Collapse in={!show}>
+							<Button variant="empty" onClick={() => setShow(true)}>Adicionar Item</Button>
+						</Collapse>
+						<Collapse in={show}>
+							<div className="px-1 flex gap-3 items-center">
+								<IconButton color="error" onClick={() => setShow(false)}>
+									<CircleX />
+								</IconButton>
+								<div>
+									<input
+										type="number"
+										value={newItem.quantitativo}
+										onChange={e => setNewItem(prev => ({ ...prev, quantitativo: Number(e.target.value) }))}
+										placeholder="Informação adicional"
+										className="w-20 border border-gray-300 rounded-lg px-3 py-2 text-gray-800 focus:ring-2 focus:ring-green-400 focus:outline-none"
+									/>
+								</div>
+								<div>
+									<input
+										type="text"
+										value={newItem.name}
+										onChange={e => setNewItem(prev => ({ ...prev, name: e.target.value }))}
+										placeholder="Informação adicional"
+										className="w-full border border-gray-300 rounded-lg px-3 py-2 text-gray-800 focus:ring-2 focus:ring-green-400 focus:outline-none"
+									/>
+								</div>
+
+								<div className="mt-3">
+									<Button color="secondary" variant="empty" onClick={() => setItens(prev => [...prev, {
+										insumoId: newItem.insumoId,
+										produtoId: newItem.produtoId,
+										quantitativo: newItem.quantitativo
+									}])}>
+										Adicionar
+									</Button>
+								</div>
+							</div>
+						</Collapse>
+						{itens.map((item, i) => <div key={i}>
+							{item.quantitativo}x {newItem.name}
+						</div>)}
 					</div>
 					<div className="flex justify-end gap-3 pt-4">
-						<Button variant="border" onClick={onClose}>Cancelar</Button>
-						<Button onClick={() => onFinish(form)}>Salvar</Button>
+						<Button loading={loading} variant="border" onClick={onClose}>Cancelar</Button>
+						<Button loading={loading} onClick={() => onFinish(form, () => setLoading(false))}>Salvar</Button>
 					</div>
 				</form>
 			</div>
