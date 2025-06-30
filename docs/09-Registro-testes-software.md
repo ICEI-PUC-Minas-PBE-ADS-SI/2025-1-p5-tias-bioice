@@ -32,6 +32,11 @@ Para cada caso de teste definido no <a href="08-Plano-testes-software.md"> Plano
 | Requisito associado | RF-005 - A aplicação deve permitir que um usuário adicione entradas e saídas financeiras. |
 | Registro de evidência | [https://github.com/user-attachments/assets/6f21c518-2ae6-44ec-a755-8ad9cfddd83a](https://github.com/user-attachments/assets/8c723c2e-e14d-4650-97f4-0b2b3f0c2992) |
 
+| **Caso de teste** 	| **CT-006 – Criar usuário** 	|
+|:---:	|:---:	|
+| Requisito associado | Permitir o cadastro e gerenciamento de usuários com diferentes níveis de acesso. |
+| Registro de evidência | https://github.com/user-attachments/assets/28bab8ed-7075-4764-8f3b-9bbd48a76123 |
+
 ## Avaliação
 
 Discorra sobre os resultados do teste, ressaltando os pontos fortes e fracos identificados na solução. Comente como o grupo pretende abordar esses pontos nas próximas iterações. Apresente as falhas detectadas e as melhorias geradas a partir dos resultados obtidos nos testes.
