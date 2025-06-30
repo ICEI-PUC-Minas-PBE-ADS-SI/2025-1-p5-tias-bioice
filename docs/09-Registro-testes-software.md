@@ -27,6 +27,12 @@ Para cada caso de teste definido no <a href="08-Plano-testes-software.md"> Plano
 | Requisito associado | RF-004 - A aplicação deve permitir que um usuário previamente autenticado exclua sua própria conta do sistema, mediante confirmação. |
 | Registro de evidência | https://github.com/user-attachments/assets/6f21c518-2ae6-44ec-a755-8ad9cfddd83a |
 
+| **Caso de teste** 	| **CT-005 – Adicionar Entrada e Saída** 	|
+|:---:	|:---:	|
+| Requisito associado | RF-005 - A aplicação deve permitir que um usuário adicione entradas e saídas financeiras. |
+| Registro de evidência | [https://github.com/user-attachments/assets/6f21c518-2ae6-44ec-a755-8ad9cfddd83a](https://github.com/user-attachments/assets/8c723c2e-e14d-4650-97f4-0b2b3f0c2992) |
+
+
 
 > **Links úteis**:
 > - [Screencast: entenda o que é e como gravar vídeos com ele](https://rockcontent.com/br/blog/screencast/) 
