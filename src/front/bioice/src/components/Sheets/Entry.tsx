@@ -13,10 +13,13 @@ export interface Lançamento {
 
 
 export function Lançamento({ data }: { data: Lançamento }) {
-  const formattedBRL = new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
+  const formattedBRL = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
   }).format(data.valor)
+
+  const date = new Intl.DateTimeFormat("pt-BR").format(new Date(data.dataOperacao))
+
   return (
     <tr className="hover:bg-gray-50 transition-colors">
       <td className="p-4">
@@ -32,7 +35,7 @@ export function Lançamento({ data }: { data: Lançamento }) {
         {formattedBRL}
       </td>
       <td className="p-4">
-        {data.dataOperacao}
+        {date}
       </td>
     </tr>
   );
@@ -48,6 +51,11 @@ export interface Insumo {
 }
 
 export function Insumo({ data }: { data: Insumo }) {
+
+  const dateR = new Intl.DateTimeFormat("pt-BR").format(new Date(data.dataRegistro))
+
+  const dateV = new Intl.DateTimeFormat("pt-BR").format(new Date(data.dataValidade))
+
   return (
     <tr className="hover:bg-gray-50 transition-colors">
       <td className="p-4">
@@ -60,10 +68,10 @@ export function Insumo({ data }: { data: Insumo }) {
         {data.descricao}
       </td>
       <td className="p-4">
-        {data.dataRegistro}
+        {dateR}
       </td>
       <td className="p-4">
-        {data.dataValidade}
+        {dateV}
       </td>
     </tr>
   );

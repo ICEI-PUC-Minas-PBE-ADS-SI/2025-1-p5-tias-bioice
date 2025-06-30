@@ -1,7 +1,5 @@
 "use client";
 
-import { FcGoogle } from "react-icons/fc"
-import { FaApple } from "react-icons/fa"
 import Button from "@/components/basic/Button"
 import { useRouter } from "next/navigation"
 
@@ -34,13 +32,14 @@ export default function Login() {
     context.api.login(form).then(r => {
       if (r.status == 200) {
         context.api.setToken(r.data.accessToken)
-        // context.setUser({
-        //   id: r.data.id,
-        //   email: r.data.email,
-        //   name: r.data.username
-        // })
+        console.log(r)
+        context.setUser({
+          id: r.data.id,
+          email: form.email,
+          name: r.data.username
+        })
 
-        router.push("/app/dashboard")
+        // router.push("/app/dashboard")
       } else throw errors[r.status] ?? "Não foi possível se conectar."
     }).catch(err => setTimeout(() => {
       setMsg(err)
@@ -128,7 +127,7 @@ export default function Login() {
             </Collapse>
           </div>
 
-          <div className="mt-6 space-y-3">
+          {/* <div className="mt-6 space-y-3">
             <Button variant="border" fullwidth>
               <FcGoogle size={20} />
               Entrar com Google
@@ -137,7 +136,7 @@ export default function Login() {
               <FaApple size={20} />
               Entrar com Apple
             </Button>
-          </div>
+          </div> */}
 
           <p className="text-sm text-gray-500 text-center mt-6">
             Ainda não possui uma conta?{" "}

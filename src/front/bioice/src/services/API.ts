@@ -1,3 +1,4 @@
+import { Item } from "@/app/app/entries/page"
 import { RowFuncionarioData } from "@/components/basic/RowFuncionario"
 
 export default class API {
@@ -5,7 +6,7 @@ export default class API {
 	baseUrl: string | null = "http://localhost:3000"
 	token: string | null = null
 
-	async genericFetch(uri: string, method: string = "GET", body: Record<string, number | string> | null = null) {
+	async genericFetch(uri: string, method: string = "GET", body: Record<string, number | string | boolean | object[]> | null = null) {
 		const config: RequestInit = {
 			method: method
 		}
@@ -47,15 +48,15 @@ export default class API {
 		return this.genericFetch(url, "GET", null)
 	}
 
-	genericPOST(url: string, body: Record<string, number | string>) {
+	genericPOST(url: string, body: Record<string, number | string | boolean | object[]>) {
 		return this.genericFetch(url, "POST", body)
 	}
 
-	genericPUT(url: string, body: Record<string, number | string>) {
+	genericPUT(url: string, body: Record<string, number | string | boolean | object[]>) {
 		return this.genericFetch(url, "PUT", body)
 	}
 
-	genericPATCH(url: string, body: Record<string, number | string>) {
+	genericPATCH(url: string, body: Record<string, number | string | boolean | object[]>) {
 		return this.genericFetch(url, "PATCH", body)
 	}
 
@@ -106,14 +107,24 @@ export default class API {
 	getEntries(query?: Record<string, string | number | boolean>) {
 		let q = ""
 		if (query) q = this.toQueryString(query)
-		
+
 		return this.genericGET("/dados-financeiros" + q)
+	}
+
+	addEntry(entry: Entry) {
+		return this.genericPOST("/dados-financeiros", {
+			"isEntrada": entry.isEntrada,
+			"valor": entry.valor,
+			"descricao": entry.descricao,
+			"usuarioId": entry.usuarioId,
+			"itens": entry.itens
+		})
 	}
 
 	getSupplies(query?: Record<string, string | number | boolean>) {
 		let q = ""
 		if (query) q = this.toQueryString(query)
-		
+
 		return this.genericGET("/insumo" + q)
 	}
 
@@ -125,4 +136,12 @@ export default class API {
 	updateUser(data: { nome: string, sobrenome: string, email: string, telefone: string }) {
 		return this.genericPUT("/usuario/me", data)
 	}
+}
+
+export interface Entry {
+	isEntrada: boolean
+	valor: number
+	descricao: string
+	usuarioId: number
+	itens: Item[]
 }
