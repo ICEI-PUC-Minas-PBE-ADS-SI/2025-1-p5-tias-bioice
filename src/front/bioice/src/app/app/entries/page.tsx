@@ -139,14 +139,14 @@ export default function Lancamentos() {
 		{activeTab === "Relatórios" && (
 			<div className="bg-white p-6 rounded-2xl shadow-md">
 				<h2 className="text-2xl font-bold text-gray-800 mb-4">Relatório Financeiro</h2>
-				<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-					<div className="bg-green-50 p-4 rounded-xl shadow-sm">
+				<div className="flex gap-4">
+					<div className="bg-green-50 p-4 w-1/2 rounded-xl shadow-sm">
 						<h3 className="text-sm text-green-800 font-medium">Total de Entradas</h3>
 						<p className="text-2xl font-semibold text-green-700">
 							R$ {receipts.reduce((sum, r) => sum + r.valor, 0).toFixed(2)}
 						</p>
 					</div>
-					<div className="bg-red-50 p-4 rounded-xl shadow-sm">
+					<div className="bg-red-50 p-4 w-1/2 rounded-xl shadow-sm">
 						<h3 className="text-sm text-red-800 font-medium">Total de Saídas</h3>
 						<p className="text-2xl font-semibold text-red-600">
 							R$ {expenses.reduce((sum, r) => sum + r.valor, 0).toFixed(2)}
@@ -194,9 +194,9 @@ export default function Lancamentos() {
 						itens: items.itens
 					}
 
-					// context.api.addEntry(newEntry).then(r => {
-					// 	console.log(r)
-					// })
+					context.api.addEntry(newEntry).then(r => {
+						console.log(r)
+					})
 				} else {
 					const newEntry: Insumo = {
 						id: receipts.length + expenses.length + inputs.length + 1,

@@ -6,9 +6,6 @@ import {
   Users,
   FileText,
   Settings,
-  Bell,
-  UserCircle2,
-  Search,
   LogOut,
 } from "lucide-react";
 import NavBarButton from "@/components/basic/NavBarButton"
@@ -55,51 +52,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <div className="text-xl font-bold text-green-600 text-center">🌱 Biolce</div>
       </div>
 
-      {/* Top Icons */}
-      <div className="flex justify-center items-center gap-1.5 mb-4">
-        <NavBarButton
-          icon={<UserCircle2 size={20} />}
-          onClick={() => {
-            setActive("Perfil");
-            router.push("/app/perfil");
-          }}
-          active={active === "Perfil"}
-        />
-        <NavBarButton
-          icon={<Settings size={18} />}
-          onClick={() => {
-            setActive("Configurações");
-            router.push("/app/config");
-          }}
-          active={active === "Configurações"}
-        />
-        <div className="relative w-full">
-          <NavBarButton
-            icon={<Bell size={18} />}
-            onClick={() => {
-              setActive("Notificações");
-              router.push("/app/notificacoes");
-            }}
-            active={active === "Notificações"}
-          />
-          <span className="absolute top-0 right-1 bg-red-500 text-white text-xs rounded-full px-1">
-            9
-          </span>
-        </div>
-      </div>
-
-      {/* Search */}
-      <div className="relative mb-4">
-        <Search className="absolute left-2 top-2.5 text-gray-400" size={16} />
-        <input
-          type="text"
-          placeholder="Procurar por..."
-          className="w-full pl-8 pr-2 py-2 text-sm border rounded focus:outline-none focus:ring-1 focus:ring-green-400"
-        />
-      </div>
-
       {/* Menu */}
-      <nav className="flex flex-col gap-1">
+      <nav className="flex flex-col mt-6 gap-1">
         {menuItems.map((item) => (
           <NavBarButton
             key={item.name}

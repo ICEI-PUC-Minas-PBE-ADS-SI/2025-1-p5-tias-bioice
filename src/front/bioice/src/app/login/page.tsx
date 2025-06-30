@@ -39,7 +39,7 @@ export default function Login() {
           name: r.data.username
         })
 
-        // router.push("/app/dashboard")
+        router.push("/app/dashboard")
       } else throw errors[r.status] ?? "Não foi possível se conectar."
     }).catch(err => setTimeout(() => {
       setMsg(err)

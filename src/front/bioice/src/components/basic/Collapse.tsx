@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useRef, useEffect, useState, useTransition } from "react"
+import React, { useRef, useEffect, useState } from "react"
 
 type CollapseProps = {
 	in: boolean
