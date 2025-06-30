@@ -2,8 +2,10 @@ import { Item } from "@/app/app/entries/page"
 import { RowFuncionarioData } from "@/components/basic/RowFuncionario"
 
 export default class API {
-	// baseUrl: string | null = "https://two025-1-p5-tias-bioice.onrender.com"
-	baseUrl: string | null = "http://localhost:3000"
+	baseUrl: string | null = window.location.hostname.includes("localhost")
+		? "http://localhost:3000"
+		: "https://two025-1-p5-tias-bioice.onrender.com"
+
 	token: string | null = null
 
 	async genericFetch(uri: string, method: string = "GET", body: Record<string, number | string | boolean | object[]> | null = null) {
