@@ -9,7 +9,7 @@ import {
   LogOut,
 } from "lucide-react";
 import NavBarButton from "@/components/basic/NavBarButton"
-import { useRouter, usePathname  } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const [active, setActive] = useState("")
@@ -44,7 +44,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     }
   }, [pathname])
 
-  return <div className="flex h-screen bg-gray-100">
+  return <div className="flex relative h-screen bg-gray-100">
     {/* Sidebar */}
     <div className="w-64 bg-white border-r border-gray-300 shadow-sm flex flex-col px-4 py-6">
       {/* Logo */}
@@ -69,7 +69,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       </nav>
     </div>
 
-    {/* Main content */}
     <main className="flex-1 bg-gray-100 p-6 overflow-auto">{children}</main>
   </div>
 }

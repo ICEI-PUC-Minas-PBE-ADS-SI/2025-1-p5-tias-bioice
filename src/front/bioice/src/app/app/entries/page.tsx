@@ -35,15 +35,15 @@ export default function Lancamentos() {
 
 	useEffect(() => {
 		setLoading(true)
-		context.api.getEntries({ pagina: 1, limite: 50, entradas: true }).then(r => {
+		context.api.getEntries({ pagina: 1, limite: 50, filtrarPorEntradas: true, filtrarPorDespesas: false }).then(r => {
 			if (r.status == 200)
 				setReceipts(r.data.data)
 		}).finally(() => setLoading(false))
-		context.api.getEntries({ pagina: 1, limite: 50, entradas: false }).then(r => {
+		context.api.getEntries({ pagina: 1, limite: 50, filtrarPorEntradas: false, filtrarPorDespesas: true }).then(r => {
 			if (r.status == 200)
 				setExpenses(r.data.data)
 		}).finally(() => setLoading(false))
-		context.api.getSupplies({ pagina: 1, limite: 50, entradas: false }).then(r => {
+		context.api.getSupplies({ pagina: 1, limite: 50 }).then(r => {
 			if (r.status == 200)
 				setInputs(r.data.data)
 		}).finally(() => setLoading(false))
@@ -53,21 +53,21 @@ export default function Lancamentos() {
 		setLoading(true)
 		switch (activeTab) {
 			case "Entradas":
-				context.api.getEntries({ pagina: 1, limite: 50, entradas: true }).then(r => {
+				context.api.getEntries({ pagina: 1, limite: 50, filtrarPorEntradas: true, filtrarPorDespesas: false }).then(r => {
 					if (r.status == 200)
 						setReceipts(r.data.data)
 				}).finally(() => setLoading(false))
 
 				break
 			case "Saídas":
-				context.api.getEntries({ pagina: 1, limite: 50, entradas: false }).then(r => {
+				context.api.getEntries({ pagina: 1, limite: 50, filtrarPorEntradas: false, filtrarPorDespesas: true }).then(r => {
 					if (r.status == 200)
 						setExpenses(r.data.data)
 				}).finally(() => setLoading(false))
 
 				break
 			case "Insumos":
-				context.api.getSupplies({ pagina: 1, limite: 50, entradas: false }).then(r => {
+				context.api.getSupplies({ pagina: 1, limite: 50 }).then(r => {
 					if (r.status == 200)
 						setInputs(r.data.data)
 				}).finally(() => setLoading(false))
@@ -181,7 +181,7 @@ export default function Lancamentos() {
 		{add && <ModalAddEntry
 			activeTab={activeTab}
 			onClose={() => setAdd(false)}
-			onFinish={(items: AddEntry) => {
+			onFinish={(items: AddEntry, callback?: () => void) => {
 				if (items.type != "input") {
 					console.log(context.user)
 					console.log(context.user.id)
@@ -195,8 +195,11 @@ export default function Lancamentos() {
 					}
 
 					context.api.addEntry(newEntry).then(r => {
-						console.log(r)
-					})
+						if (r.status == 201) {
+							if (callback) callback()
+							setAdd(false)
+						}
+					}).catch(err => console.error(err))
 				} else {
 					const newEntry: Insumo = {
 						id: receipts.length + expenses.length + inputs.length + 1,
@@ -210,7 +213,6 @@ export default function Lancamentos() {
 					setInputs(prev => [...prev, newEntry])
 				}
 
-				// setAdd(false)
 			}}
 		/>}
 	</Card>
@@ -225,7 +227,7 @@ type AddEntry = {
 
 interface ModalAddEntry {
 	onClose: () => void
-	onFinish: (form: AddEntry) => void
+	onFinish: (form: AddEntry, calback?: () => void) => void
 	activeTab: Tabs
 }
 
@@ -240,6 +242,7 @@ export interface Item {
 function ModalAddEntry({ onClose, onFinish, activeTab }: ModalAddEntry) {
 	const [itens, setItens] = useState<Item[]>([])
 	const [show, setShow] = useState(false)
+	const [loading, setLoading] = useState(false)
 	const [newItem, setNewItem] = useState({
 		quantitativo: 0,
 		produtoId: 1,
@@ -347,12 +350,12 @@ function ModalAddEntry({ onClose, onFinish, activeTab }: ModalAddEntry) {
 							</div>
 						</Collapse>
 						{itens.map((item, i) => <div key={i}>
-							{item.quantitativo}x {item.name}
+							{item.quantitativo}x {newItem.name}
 						</div>)}
 					</div>
 					<div className="flex justify-end gap-3 pt-4">
-						<Button variant="border" onClick={onClose}>Cancelar</Button>
-						<Button onClick={() => onFinish(form)}>Salvar</Button>
+						<Button loading={loading} variant="border" onClick={onClose}>Cancelar</Button>
+						<Button loading={loading} onClick={() => onFinish(form, () => setLoading(false))}>Salvar</Button>
 					</div>
 				</form>
 			</div>

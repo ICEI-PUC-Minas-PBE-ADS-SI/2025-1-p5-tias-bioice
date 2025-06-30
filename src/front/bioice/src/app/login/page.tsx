@@ -34,7 +34,7 @@ export default function Login() {
         context.api.setToken(r.data.accessToken)
         console.log(r)
         context.setUser({
-          id: r.data.id,
+          id: r.data.userId,
           email: form.email,
           name: r.data.username
         })
