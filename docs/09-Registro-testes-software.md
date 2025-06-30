@@ -20,7 +20,7 @@ Para cada caso de teste definido no <a href="08-Plano-testes-software.md"> Plano
 | **Caso de teste** 	| **CT-003 – Realizar login** 	|
 |:---:	|:---:	|
 | Requisito associado | RF-003 - A aplicação deve permitir que um usuário previamente cadastrado faça login. |
-| Registro de evidência | [www.teste.com.br/drive/ct-02](http://www.teste.com.br/drive/ct-02) |
+| Registro de evidência | https://github.com/user-attachments/assets/2fb8a53c-3720-41f9-814e-cd0132031124 |
 
 | **Caso de teste** 	| **CT-004 – Exclusão de Usuário** 	|
 |:---:	|:---:	|
