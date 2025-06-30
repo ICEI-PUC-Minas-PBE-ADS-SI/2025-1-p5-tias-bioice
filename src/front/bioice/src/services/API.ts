@@ -110,6 +110,10 @@ export default class API {
 		return this.genericGET("/dados-financeiros" + q)
 	}
 
+	getRelatorio() {
+		return this.genericGET("/dados-financeiros/relatorio")
+	}
+
 	getSupplies(query?: Record<string, string | number | boolean>) {
 		let q = ""
 		if (query) q = this.toQueryString(query)

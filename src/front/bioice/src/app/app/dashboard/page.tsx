@@ -2,7 +2,7 @@
 
 import Card from "@/components/basic/Card";
 import { useAppContext } from "@/contexts/AppContext";
-import { useEffect } from "react";
+import {useEffect, useState} from "react";
 import {
   BarChart,
   Bar,
@@ -14,50 +14,81 @@ import {
   Pie,
   Cell,
 } from "recharts";
+import Spinner from "@/components/basic/Spinner";
 
 const verde = "#00C49F";
 const amarelo = "#FFBB28";
 const cinzaClaro = "#E0E0E0";
 
-const dataDesempenho = [
-  { name: "Jan", entrada: 9000, saida: 8000 },
-  { name: "Feb", entrada: 10000, saida: 9000 },
-  { name: "Mar", entrada: 9500, saida: 8500 },
-  { name: "Apr", entrada: 9700, saida: 8700 },
-  { name: "May", entrada: 9900, saida: 9100 },
-  { name: "Jun", entrada: 9200, saida: 8600 },
-  { name: "Jul", entrada: 8100, saida: 7900 },
-  { name: "Aug", entrada: 7600, saida: 7200 },
-  { name: "Sep", entrada: 8300, saida: 7500 },
-  { name: "Oct", entrada: 8800, saida: 8500 },
-  { name: "Nov", entrada: 9400, saida: 9100 },
-];
-
-const dataMeta = [
-  { name: "Achieved", value: 67, fill: verde },
-  { name: "Remaining", value: 33, fill: cinzaClaro },
-];
-
-const dataConsumo = [
-  { name: "Muito Ativo", value: 75, fill: verde },
-  { name: "Ativo", value: 60, fill: amarelo },
-  { name: "Inativo", value: 30, fill: cinzaClaro },
-];
+const dataConsumo =[
+  { name: "Usados", value: 180, fill: "#00C49F" },
+  { name: "Disponíveis", value: 80, fill: "#FFBB28" },
+  { name: "Vencidos", value: 10, fill: "#E0E0E0" }
+]
 
 const dataInsumos = [
-  { name: "Produto A", value: 1200000, percentage: "+8.2%" },
-  { name: "Produto B", value: 800000, percentage: "+7%" },
-  { name: "Produto C", value: 645000, percentage: "+2.5%" },
-  { name: "Produto D", value: 590000, percentage: "-6.5%" },
-  { name: "Produto E", value: 342000, percentage: "+1.7%" },
+  { name: "Essência de Baunilha", value: 15.40, percentage: "+2,1%" },
+  { name: "Açucar Refinado", value: 15.49, percentage: "+5%" },
+  { name: "Creme de Leite (1Kg)", value: 17.89, percentage: "+2.5%" },
+  { name: "Leite Integral (Caixa 12u)", value: 107.97, percentage: "-0.5%" },
+  { name: "Granulado de Chocolate", value: 13.33, percentage: "+1.7%" },
 ];
 
 export default function DashboardPage() {
   const context = useAppContext()
+    const [loading, setLoading] = useState(true);
+    const [dataDesempenho, setDataDesempenho] = useState([]);
+    const [dataMeta, setDataMeta] = useState([]);
+    const [metaMensal, setMetaMensal] = useState(10000);
+    const [lucroMensal, setLucroMensal] = useState(0);
 
   useEffect(() => {
-    console.log(context.api.getToken())
-  }, [])
+    console.log(context.api.getToken());
+
+    context.api.getRelatorio().then((r) => {
+      console.log(r);
+
+      function atualizarDashBoard(): void {
+        const relatorioData = r.data.map((it) => ({
+          name: it.mes > 10 ? it.mes + "/" + it.ano : `0${it.mes}/${it.ano}`,
+          totalEntradas: it.totalEntradas,
+          totalSaidas: it.totalSaidas,
+          totalMensal: it.totalMensal,
+        }));
+
+        setDataDesempenho(relatorioData);
+      }
+
+      function atualizarMetaMensal() {
+        const meta = 10000;
+        setMetaMensal(meta);
+
+        const ultimo = r.data[r.data.length - 1];
+        if (ultimo) {
+          const lucro = ultimo.totalEntradas - ultimo.totalSaidas;
+
+          setLucroMensal(lucro);
+
+          const percentual = Math.min((lucro / meta) * 100, 100);
+          setDataMeta([
+            {name: "Archieved", value: percentual, fill: verde},
+            {name: "Remaining", value: 100 - percentual, fill: cinzaClaro},
+          ]);
+        }
+      }
+
+      if (r.status === 200) {
+        console.log("sucesso");
+        atualizarDashBoard();
+        atualizarMetaMensal();
+
+      }
+    }).finally(() => {
+      setLoading(false);
+    });
+
+  }, []);
+
 
   return (
     <div className="text-black p-6 space-y-6 bg-gray-100 min-h-screen">
@@ -95,24 +126,35 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="col-span-2">
           <Card>
-            <div className="p-6">
-              <h2 className="text-lg font-semibold mb-4">Desempenho</h2>
-              <ResponsiveContainer width="100%" height={250}>
-                <BarChart data={dataDesempenho}>
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip />
-                  <Bar dataKey="entrada" fill={verde} />
-                  <Bar dataKey="saida" fill={amarelo} />
-                </BarChart>
-              </ResponsiveContainer>
+            <div className="p-9">
+                {loading
+                    ? <div className="flex justify-center">
+                        <Spinner/>
+                    </div>
+                    : <div> <h2 className="text-lg font-semibold mb-4">Dados financeiros</h2>
+                        <ResponsiveContainer width="100%" height={250}>
+                            <BarChart data={dataDesempenho}>
+                                <XAxis dataKey="name"/>
+                                <YAxis />
+                                <Tooltip />
+                                <Bar dataKey="totalEntradas" fill={verde} />
+                                <Bar dataKey="totalSaidas" fill={amarelo} />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div> }
             </div>
           </Card>
         </div>
 
         <Card>
           <div className="flex flex-col p-6 items-center justify-center">
-            <h2 className="text-lg font-semibold mb-4">Meta</h2>
+            <h2 className="text-lg font-semibold mb-4">Meta Mensal</h2>
+            <h3 className="text-lg font-semibold mb-4">
+              {lucroMensal.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+              })} / {metaMensal.toLocaleString("pt-BR", {style: "currency", currency: "BRL"})}
+            </h3>
             <ResponsiveContainer width="100%" height={200}>
               <PieChart>
                 <Pie
@@ -129,7 +171,9 @@ export default function DashboardPage() {
                 </Pie>
               </PieChart>
             </ResponsiveContainer>
-            <div className="text-center text-2xl font-semibold" style={{ color: verde }}>67%</div>
+            <div className="text-center text-2xl font-semibold" style={{ color: verde }}>
+              {dataMeta.length > 0 ? `${dataMeta[0].value.toFixed(0)}%` : "0%"}
+            </div>
           </div>
         </Card>
       </div>
@@ -137,7 +181,7 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
           <div className="flex flex-col p-6 items-center justify-center">
-            <h2 className="text-lg font-semibold mb-4 text-black">Consumo por Perfil</h2>
+            <h2 className="text-lg font-semibold mb-4 text-black">Estatísticas do estoque</h2>
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
@@ -177,9 +221,7 @@ export default function DashboardPage() {
                 >
                   <div className="text-sm text-gray-600 mb-1">{item.name}</div>
                   <div className="text-xl font-bold text-gray-800">
-                    {item.value >= 1000000
-                      ? (item.value / 1000000).toFixed(1) + "M"
-                      : (item.value / 1000).toFixed(0) + "K"}
+                    {`${item.value.toLocaleString("pt-BR", {style: "currency", currency: "BRL"})}`}
                   </div>
                   <div
                     className={`text-sm font-medium ${item.percentage.startsWith("-") ? "text-red-500" : "text-green-600"
