@@ -8,19 +8,24 @@ Para cada caso de teste definido no <a href="08-Plano-testes-software.md"> Plano
 
 | **Caso de teste** 	| **CT-001 – Cadastrar perfil** 	|
 |:---:	|:---:	|
-| Requisito associado | RF-00X - A aplicação deve apresentar, na página principal, a funcionalidade de cadastro de usuários para que esses consigam criar e gerenciar seu perfil. |
+| Requisito associado | RF-001 - A aplicação deve apresentar, na página principal, a funcionalidade de cadastro de usuários para que esses consigam criar e gerenciar seu perfil. |
 | Registro de evidência | https://github.com/user-attachments/assets/db865ed2-10cf-4d6d-ae39-a8463cbcbab5 |
 
 | **Caso de teste** 	| **CT-002 –Editar usuario ** 	|
 |:---:	|:---:	|
-| Requisito associado | RF-00X - A aplicação deve editar os usuarios. |
+| Requisito associado | RF-002 - A aplicação deve editar os usuarios. |
 | Registro de evidência | [https://github.com/user-attachments/assets/db865ed2-10cf-4d6d-ae39-a8463cbcbab5](https://drive.google.com/file/d/1rdvINBxME5cw16hCUW4HM9q--jS8mUM-/view?usp=sharing) |
 
 
-| **Caso de teste** 	| **CT-002 – Realizar login** 	|
+| **Caso de teste** 	| **CT-003 – Realizar login** 	|
 |:---:	|:---:	|
-| Requisito associado | RF-00Y - A aplicação deve permitir que um usuário previamente cadastrado faça login. |
+| Requisito associado | RF-003 - A aplicação deve permitir que um usuário previamente cadastrado faça login. |
 | Registro de evidência | [www.teste.com.br/drive/ct-02](http://www.teste.com.br/drive/ct-02) |
+
+| **Caso de teste** 	| **CT-004 – Exclusão de Usuário** 	|
+|:---:	|:---:	|
+| Requisito associado | RF-004 - A aplicação deve permitir que um usuário previamente autenticado exclua sua própria conta do sistema, mediante confirmação. |
+| Registro de evidência | https://github.com/user-attachments/assets/6f21c518-2ae6-44ec-a755-8ad9cfddd83a |
 
 
 > **Links úteis**:

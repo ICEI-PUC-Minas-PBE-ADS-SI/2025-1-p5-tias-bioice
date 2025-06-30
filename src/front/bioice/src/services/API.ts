@@ -112,6 +112,10 @@ export default class API {
 		return this.genericGET("/dados-financeiros" + q)
 	}
 
+	getRelatorio() {
+		return this.genericGET("/dados-financeiros/relatorio")
+	}
+
 	addEntry(entry: Entry) {
 		return this.genericPOST("/dados-financeiros", {
 			"isEntrada": entry.isEntrada,
