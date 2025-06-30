@@ -2,7 +2,7 @@
 
 import Card from "@/components/basic/Card";
 import { useAppContext } from "@/contexts/AppContext";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import {
   BarChart,
   Bar,
@@ -20,7 +20,7 @@ const verde = "#00C49F";
 const amarelo = "#FFBB28";
 const cinzaClaro = "#E0E0E0";
 
-const dataConsumo =[
+const dataConsumo = [
   { name: "Usados", value: 180, fill: "#00C49F" },
   { name: "Disponíveis", value: 80, fill: "#FFBB28" },
   { name: "Vencidos", value: 10, fill: "#E0E0E0" }
@@ -36,11 +36,11 @@ const dataInsumos = [
 
 export default function DashboardPage() {
   const context = useAppContext()
-    const [loading, setLoading] = useState(true);
-    const [dataDesempenho, setDataDesempenho] = useState([]);
-    const [dataMeta, setDataMeta] = useState([]);
-    const [metaMensal, setMetaMensal] = useState(10000);
-    const [lucroMensal, setLucroMensal] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [dataDesempenho, setDataDesempenho] = useState([]);
+  const [dataMeta, setDataMeta] = useState<{ name: string, value: number, fill: string }[]>([]);
+  const [metaMensal, setMetaMensal] = useState(10000);
+  const [lucroMensal, setLucroMensal] = useState(0);
 
   useEffect(() => {
     console.log(context.api.getToken());
@@ -49,7 +49,13 @@ export default function DashboardPage() {
       console.log(r);
 
       function atualizarDashBoard(): void {
-        const relatorioData = r.data.map((it) => ({
+        const relatorioData = r.data.map((it: {
+          mes: number
+          ano: number
+          totalEntradas: number
+          totalSaidas: number
+          totalMensal: number
+        }) => ({
           name: it.mes > 10 ? it.mes + "/" + it.ano : `0${it.mes}/${it.ano}`,
           totalEntradas: it.totalEntradas,
           totalSaidas: it.totalSaidas,
@@ -71,8 +77,8 @@ export default function DashboardPage() {
 
           const percentual = Math.min((lucro / meta) * 100, 100);
           setDataMeta([
-            {name: "Archieved", value: percentual, fill: verde},
-            {name: "Remaining", value: 100 - percentual, fill: cinzaClaro},
+            { name: "Archieved", value: percentual, fill: verde },
+            { name: "Remaining", value: 100 - percentual, fill: cinzaClaro },
           ]);
         }
       }
@@ -127,21 +133,21 @@ export default function DashboardPage() {
         <div className="col-span-2">
           <Card>
             <div className="p-9">
-                {loading
-                    ? <div className="flex justify-center">
-                        <Spinner/>
-                    </div>
-                    : <div> <h2 className="text-lg font-semibold mb-4">Dados financeiros</h2>
-                        <ResponsiveContainer width="100%" height={250}>
-                            <BarChart data={dataDesempenho}>
-                                <XAxis dataKey="name"/>
-                                <YAxis />
-                                <Tooltip />
-                                <Bar dataKey="totalEntradas" fill={verde} />
-                                <Bar dataKey="totalSaidas" fill={amarelo} />
-                            </BarChart>
-                        </ResponsiveContainer>
-                    </div> }
+              {loading
+                ? <div className="flex justify-center">
+                  <Spinner />
+                </div>
+                : <div> <h2 className="text-lg font-semibold mb-4">Dados financeiros</h2>
+                  <ResponsiveContainer width="100%" height={250}>
+                    <BarChart data={dataDesempenho}>
+                      <XAxis dataKey="name" />
+                      <YAxis />
+                      <Tooltip />
+                      <Bar dataKey="totalEntradas" fill={verde} />
+                      <Bar dataKey="totalSaidas" fill={amarelo} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>}
             </div>
           </Card>
         </div>
@@ -153,7 +159,7 @@ export default function DashboardPage() {
               {lucroMensal.toLocaleString("pt-BR", {
                 style: "currency",
                 currency: "BRL",
-              })} / {metaMensal.toLocaleString("pt-BR", {style: "currency", currency: "BRL"})}
+              })} / {metaMensal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
             </h3>
             <ResponsiveContainer width="100%" height={200}>
               <PieChart>
@@ -221,7 +227,7 @@ export default function DashboardPage() {
                 >
                   <div className="text-sm text-gray-600 mb-1">{item.name}</div>
                   <div className="text-xl font-bold text-gray-800">
-                    {`${item.value.toLocaleString("pt-BR", {style: "currency", currency: "BRL"})}`}
+                    {`${item.value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`}
                   </div>
                   <div
                     className={`text-sm font-medium ${item.percentage.startsWith("-") ? "text-red-500" : "text-green-600"
