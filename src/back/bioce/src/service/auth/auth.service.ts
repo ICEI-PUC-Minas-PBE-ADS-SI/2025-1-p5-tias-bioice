@@ -25,6 +25,8 @@ export class AuthService {
             sub: usuario.id, username: usuario.username
         });
         return {
+            userId: usuario.id,
+            username: usuario.username,
             accessToken: tokenJwt
         };
     }
