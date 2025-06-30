@@ -172,6 +172,7 @@ Atualizado em: 29/06/2025
 | Saul	     | Testes CT-001 – Cadastrar perfil | 29/06/2025     | 29/06/2025 | ✔️   | 29/06/2025      |
 | Daniel       | CRUD Insumos     | 28/06/2025     | 20/06/2025 | ✔️   | 29/06/2025      |
 | Daniel       | Correção de bugs     | 28/06/2025     | 27/06/2025 | ✔️   | 29/06/2025      |
+| Daniel       | Tela de dashboard (frontend)    | 25/06/2025     | 29/06/2025 | ✔️   | 29/06/2025      |
 | Humberto       | Melhorias front     | 22/06/2025     | 29/06/2025 | ✔️   | 29/06/2025      |
 | Humberto	     | Implementação Request  | 22/06/2025     | 29/06/2025 | ✔️   | 29/06/2025      |
 | Humberto	     | Funcionalidades dinâmicas tabelas  | 22/06/2025     | 29/06/2025 | ✔️   | 29/06/2025      |
